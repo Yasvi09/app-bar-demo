@@ -26,7 +26,7 @@
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:gravity="center"
-        android:background="@color/white">
+        android:background="@drawable/bottom_linear_bg">
 
         <ImageView
             android:id="@+id/homeIcon"
@@ -34,6 +34,7 @@
             android:layout_height="30dp"
             android:src="@drawable/ic_home"
             android:layout_gravity="center"
+            android:layout_marginRight="160dp"
             android:layout_weight="1"/>
         
         <View
@@ -49,17 +50,28 @@
             android:layout_gravity="center" />
     </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
+    <FrameLayout
+        android:id="@+id/fabContainer"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:src="@drawable/ic_grid"
-        android:background="@drawable/fab_background"
-        android:backgroundTint="@null"
-        app:maxImageSize="30dp"
-        app:fabSize="normal"
         android:layout_centerHorizontal="true"
-        android:layout_above="@id/bottomNavLayout"
-        android:elevation="8dp"
-        android:rotation="45"/>
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="25dp"
+        android:background="@drawable/transparent_border"
+        android:rotation="45"
+        android:elevation="8dp">
+
+        <View
+            android:id="@+id/squareFab"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/fab_background" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_grid"
+            android:layout_gravity="center"
+            android:rotation="-45"/>
+    </FrameLayout>
 </RelativeLayout>
