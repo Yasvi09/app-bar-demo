@@ -18,38 +18,47 @@
         android:textStyle="bold"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"/>
-    
+
+    <!-- Custom curved bottom navigation background -->
+    <com.example.appbardemo.ui.theme.CurvedBottomNavigationView
+        android:id="@+id/curvedBottomNavBackground"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true" />
+
+    <!-- Navigation icons -->
     <LinearLayout
         android:id="@+id/bottomNavLayout"
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        android:gravity="center"
-        android:background="@drawable/bottom_linear_bg">
+        android:gravity="center_vertical">
 
         <ImageView
             android:id="@+id/homeIcon"
-            android:layout_width="30dp"
+            android:layout_width="0dp"
             android:layout_height="30dp"
             android:src="@drawable/ic_home"
-            android:layout_gravity="center"
-            android:layout_marginRight="160dp"
-            android:layout_weight="1"/>
-        
+            android:layout_weight="1"
+            android:layout_gravity="center" />
+
+        <!-- Space for FAB -->
         <View
-            android:layout_width="60dp"
-            android:layout_height="60dp"/>
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
         <ImageView
             android:id="@+id/settingsIcon"
-            android:layout_width="30dp"
+            android:layout_width="0dp"
             android:layout_height="30dp"
             android:src="@drawable/ic_setting"
             android:layout_weight="1"
             android:layout_gravity="center" />
     </LinearLayout>
 
+    <!-- FAB positioned over the curved cutout -->
     <FrameLayout
         android:id="@+id/fabContainer"
         android:layout_width="70dp"
