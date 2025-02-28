@@ -1,10 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".ui.theme.MainActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/appNameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="App Name Here"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"/>
+    
+    <LinearLayout
+        android:id="@+id/bottomNavLayout"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/homeIcon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_home"
+            android:layout_gravity="center"
+            android:layout_weight="1"/>
+        
+        <View
+            android:layout_width="60dp"
+            android:layout_height="60dp"/>
+
+        <ImageView
+            android:id="@+id/settingsIcon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_setting"
+            android:layout_weight="1"
+            android:layout_gravity="center" />
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/ic_grid"
+        android:background="@drawable/fab_background"
+        android:backgroundTint="@null"
+        app:maxImageSize="30dp"
+        app:fabSize="normal"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/bottomNavLayout"
+        android:elevation="8dp"
+        android:rotation="45"/>
+</RelativeLayout>
