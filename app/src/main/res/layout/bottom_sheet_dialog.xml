@@ -7,40 +7,79 @@
     <LinearLayout
         android:id="@+id/bottomNavLayout"
         android:layout_width="match_parent"
-        android:orientation="horizontal"
         android:layout_height="wrap_content"
         android:layout_marginTop="55dp"
+        android:background="@drawable/bottom_linear_bg"
         android:gravity="center"
-        android:background="@drawable/bottom_linear_bg">
+        android:orientation="horizontal">
 
-        <View
-            android:layout_width="60dp"
-            android:layout_height="60dp"/>
 
         <GridLayout
             android:id="@+id/gridLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@id/fabContainer"
-            android:layout_marginTop="50dp"
             android:columnCount="3">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:orientation="vertical"
-                android:layout_gravity="center">
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="-60dp">
+
                 <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <FrameLayout
                     android:layout_width="70dp"
                     android:layout_height="70dp"
+                    android:background="@drawable/diamond_border"
                     android:rotation="45"
-                    android:background="@drawable/diamond_border">
+                    android:layout_margin="20dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:rotation="-45"
+                            android:src="@drawable/ic_home"
+                            android:layout_gravity="center"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:rotation="-45"
+                            android:text="Video"
+                            android:textColor="@color/black"
+                            android:textSize="12dp"
+                            />
+                    </LinearLayout>
+                </FrameLayout>
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp">
+                    <FrameLayout
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/diamond_border"
+                    android:rotation="45">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="30dp"
@@ -51,238 +90,271 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Video"
-                            android:textSize="12dp"
-                            android:rotation="-45"
-                            android:textColor="@color/black"/>
-                    </LinearLayout>
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:rotation="45"
-                    android:background="@drawable/diamond_border"
-                    android:layout_marginTop="10dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:gravity="center">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:src="@drawable/ic_home"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:text="Stream"
+                            android:textColor="@color/black"
                             android:textSize="12sp"
-                            android:textColor="@color/black"/>
+                            android:rotation="-45"/>
                     </LinearLayout>
                 </FrameLayout>
-
+                </FrameLayout>
 
                 <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp">
+                    <FrameLayout
                     android:layout_width="70dp"
                     android:layout_height="70dp"
-                    android:rotation="45"
+                    android:layout_margin="20dp"
                     android:background="@drawable/diamond_border"
-                    android:layout_marginTop="10dp">
+                    android:rotation="45">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-                            android:src="@drawable/ic_home"/>
+                            android:src="@drawable/ic_home"
+                            android:rotation="-45"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Private"
+                            android:textColor="@color/black"
                             android:textSize="12sp"
-                            android:textColor="@color/black"/>
+                            android:rotation="-45"/>
                     </LinearLayout>
                 </FrameLayout>
+                </FrameLayout>
+
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:orientation="vertical"
-                android:layout_gravity="center">
+                android:layout_marginTop="90dp"
+                >
+
                 <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <FrameLayout
                     android:layout_width="70dp"
                     android:layout_height="70dp"
-                    android:rotation="45"
-                    android:background="@drawable/diamond_border">
+                    android:layout_margin="20dp"
+                    android:background="@drawable/diamond_border"
+                    android:rotation="45">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-                            android:src="@drawable/ic_home"/>
+                            android:src="@drawable/ic_home"
+                            android:rotation="-45"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Music"
+                            android:textColor="@color/black"
                             android:textSize="12sp"
-                            android:textColor="@color/black"/>
+                            android:rotation="-45"/>
                     </LinearLayout>
+                </FrameLayout>
                 </FrameLayout>
 
                 <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp">
+                    <FrameLayout
                     android:layout_width="70dp"
                     android:layout_height="70dp"
-                    android:rotation="45"
+                    android:layout_margin="20dp"
                     android:background="@drawable/diamond_border"
-                    android:layout_marginTop="10dp">
+                    android:rotation="45">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-                            android:src="@drawable/ic_home"/>
+                            android:src="@drawable/ic_home"
+                            android:rotation="-45"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="MP3 Cutter"
+                            android:textColor="@color/black"
                             android:textSize="12sp"
-                            android:textColor="@color/black"/>
+                            android:rotation="-45"/>
                     </LinearLayout>
+                </FrameLayout>
                 </FrameLayout>
 
                 <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp">
+                    <FrameLayout
                     android:layout_width="70dp"
                     android:layout_height="70dp"
-                    android:rotation="45"
+                    android:layout_margin="20dp"
                     android:background="@drawable/diamond_border"
-                    android:layout_marginTop="10dp">
+                    android:rotation="45">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-                            android:src="@drawable/ic_home"/>
+                            android:src="@drawable/ic_home"
+                            android:rotation="-45"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Remove Ads"
+                            android:textColor="@color/black"
                             android:textSize="12sp"
-                            android:textColor="@color/black"/>
+                            android:rotation="-45"/>
                     </LinearLayout>
                 </FrameLayout>
+                </FrameLayout>
+
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:orientation="vertical"
-                android:layout_gravity="center">
+                android:layout_marginTop="-60dp"
+                android:layout_marginRight="20dp">
+
                 <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp">
+                    <FrameLayout
                     android:layout_width="70dp"
                     android:layout_height="70dp"
-                    android:rotation="45"
+                    android:layout_margin="20dp"
                     android:background="@drawable/diamond_border"
-                    android:layout_marginTop="10dp">
+                    android:rotation="45">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-                            android:src="@drawable/ic_home"/>
+                            android:src="@drawable/ic_home"
+                            android:rotation="-45"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Remove Ads"
+                            android:textColor="@color/black"
                             android:textSize="12sp"
-                            android:textColor="@color/black"/>
+                            android:rotation="-45"/>
                     </LinearLayout>
                 </FrameLayout>
+                </FrameLayout>
+
                 <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp">
+                    <FrameLayout
                     android:layout_width="70dp"
                     android:layout_height="70dp"
-                    android:rotation="45"
+                    android:layout_margin="20dp"
                     android:background="@drawable/diamond_border"
-                    android:layout_marginTop="10dp">
+                    android:rotation="45">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-                            android:src="@drawable/ic_home"/>
+                            android:src="@drawable/ic_home"
+                            android:rotation="-45"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Remove Ads"
+                            android:textColor="@color/black"
                             android:textSize="12sp"
-                            android:textColor="@color/black"/>
+                            android:rotation="-45"/>
                     </LinearLayout>
                 </FrameLayout>
+                </FrameLayout>
+
                 <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp">
+                    <FrameLayout
                     android:layout_width="70dp"
                     android:layout_height="70dp"
-                    android:rotation="45"
+                    android:layout_margin="20dp"
                     android:background="@drawable/diamond_border"
-                    android:layout_marginTop="10dp">
+                    android:rotation="45">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-                            android:src="@drawable/ic_home"/>
+                            android:src="@drawable/ic_home"
+                            android:rotation="-45"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Remove Ads"
+                            android:textColor="@color/black"
                             android:textSize="12sp"
-                            android:textColor="@color/black"/>
+                            android:rotation="-45"/>
                     </LinearLayout>
                 </FrameLayout>
+                </FrameLayout>
+
             </LinearLayout>
         </GridLayout>
 
