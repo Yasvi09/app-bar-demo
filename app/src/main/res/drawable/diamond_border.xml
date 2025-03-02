@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Gradient border layer - now with more yellow start color -->
+    <item>
+        <shape>
+            <gradient
+                android:angle="290"
+                android:startColor="#CCFF00"
+                android:endColor="#00C853" />
+            <corners android:radius="8dp"/>
+        </shape>
+    </item>
 
-    <solid android:color="@color/white"/>
-    <corners android:radius="8dp"/>
-    <stroke android:color="#00C853"
-        android:width="2dp"/>
-
-</shape>
+    <!-- White fill with inset to create border effect -->
+    <item android:left="3dp" android:top="3dp" android:right="3dp" android:bottom="3dp">
+        <shape>
+            <solid android:color="@color/white"/>
+            <corners android:radius="6dp"/>
+        </shape>
+    </item>
+</layer-list>

@@ -26,110 +26,118 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:orientation="vertical"
-                android:layout_marginLeft="50dp"
+
                 android:layout_marginTop="-60dp">
 
                 <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                     <FrameLayout
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:background="@drawable/diamond_border"
-                    android:rotation="45"
-                    android:layout_margin="20dp">
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_margin="20dp"
+                        android:background="@drawable/diamond_border"
+                        android:rotation="45">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:rotation="-45">
 
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:rotation="-45"
-                            android:src="@drawable/ic_home"
-                            android:layout_gravity="center"/>
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/ic_video"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:rotation="-45"
-                            android:text="Video"
-                            android:textColor="@color/black"
-                            android:textSize="12dp"
-                            />
-                    </LinearLayout>
-                </FrameLayout>
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp">
-                    <FrameLayout
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_margin="20dp"
-                    android:background="@drawable/diamond_border"
-                    android:rotation="45">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:src="@drawable/ic_home"
-                            android:rotation="-45"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Stream"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"
-                            android:rotation="-45"/>
-                    </LinearLayout>
-                </FrameLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxWidth="50dp"
+                                android:text="Duplicate FInder"
+                                android:textColor="@color/black"
+                                android:textSize="10sp"
+                                android:gravity="center"
+                                android:maxLines="2"
+                                android:layout_marginTop="2dp"/>
+                        </LinearLayout>
+                    </FrameLayout>
                 </FrameLayout>
 
                 <FrameLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp">
+                    android:layout_height="wrap_content">
                     <FrameLayout
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_margin="20dp"
-                    android:background="@drawable/diamond_border"
-                    android:rotation="45">
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_margin="20dp"
+                        android:background="@drawable/diamond_border"
+                        android:rotation="45">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:rotation="-45">
 
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:src="@drawable/ic_home"
-                            android:rotation="-45"/>
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/ic_stream"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Private"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"
-                            android:rotation="-45"/>
-                    </LinearLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxWidth="50dp"
+                                android:text="Stream"
+                                android:textColor="@color/black"
+                                android:textSize="10sp"
+                                android:gravity="center"
+                                android:maxLines="2"
+                                android:layout_marginTop="2dp"/>
+                        </LinearLayout>
+                    </FrameLayout>
                 </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <FrameLayout
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_margin="20dp"
+                        android:background="@drawable/diamond_border"
+                        android:rotation="45">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:rotation="-45">
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/ic_private"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxWidth="50dp"
+                                android:text="Private"
+                                android:textColor="@color/black"
+                                android:textSize="10sp"
+                                android:gravity="center"
+                                android:maxLines="2"
+                                android:layout_marginTop="2dp"/>
+                        </LinearLayout>
+                    </FrameLayout>
                 </FrameLayout>
 
             </LinearLayout>
@@ -146,101 +154,111 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                     <FrameLayout
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_margin="20dp"
-                    android:background="@drawable/diamond_border"
-                    android:rotation="45">
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_margin="20dp"
+                        android:background="@drawable/diamond_border"
+                        android:rotation="45">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:rotation="-45">
 
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:src="@drawable/ic_home"
-                            android:rotation="-45"/>
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/ic_theme"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Music"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"
-                            android:rotation="-45"/>
-                    </LinearLayout>
-                </FrameLayout>
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp">
-                    <FrameLayout
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_margin="20dp"
-                    android:background="@drawable/diamond_border"
-                    android:rotation="45">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:src="@drawable/ic_home"
-                            android:rotation="-45"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="MP3 Cutter"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"
-                            android:rotation="-45"/>
-                    </LinearLayout>
-                </FrameLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxWidth="50dp"
+                                android:text="Theme"
+                                android:textColor="@color/black"
+                                android:textSize="10sp"
+                                android:gravity="center"
+                                android:maxLines="2"
+                                android:layout_marginTop="2dp"/>
+                        </LinearLayout>
+                    </FrameLayout>
                 </FrameLayout>
 
                 <FrameLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp">
+                    android:layout_height="wrap_content">
                     <FrameLayout
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_margin="20dp"
-                    android:background="@drawable/diamond_border"
-                    android:rotation="45">
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_margin="20dp"
+                        android:background="@drawable/diamond_border"
+                        android:rotation="45">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:rotation="-45">
 
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:src="@drawable/ic_home"
-                            android:rotation="-45"/>
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/ic_mp3_cutter"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Remove Ads"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"
-                            android:rotation="-45"/>
-                    </LinearLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxWidth="50dp"
+                                android:text="MP3 Cutter"
+                                android:textColor="@color/black"
+                                android:textSize="10sp"
+                                android:gravity="center"
+                                android:maxLines="2"
+                                android:layout_marginTop="2dp"/>
+                        </LinearLayout>
+                    </FrameLayout>
                 </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <FrameLayout
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_margin="20dp"
+                        android:background="@drawable/diamond_border"
+                        android:rotation="45">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:rotation="-45">
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/ic_remove_ads"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxWidth="50dp"
+                                android:text="Remove Ads"
+                                android:textColor="@color/black"
+                                android:textSize="10sp"
+                                android:gravity="center"
+                                android:maxLines="2"
+                                android:layout_marginTop="2dp"/>
+                        </LinearLayout>
+                    </FrameLayout>
                 </FrameLayout>
 
             </LinearLayout>
@@ -251,108 +269,117 @@
                 android:layout_gravity="center"
                 android:orientation="vertical"
                 android:layout_marginTop="-60dp"
-                android:layout_marginRight="20dp">
+                >
 
                 <FrameLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp">
+                    android:layout_height="wrap_content">
                     <FrameLayout
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_margin="20dp"
-                    android:background="@drawable/diamond_border"
-                    android:rotation="45">
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_margin="20dp"
+                        android:background="@drawable/diamond_border"
+                        android:rotation="45">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:rotation="-45">
 
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:src="@drawable/ic_home"
-                            android:rotation="-45"/>
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/ic_music"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Remove Ads"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"
-                            android:rotation="-45"/>
-                    </LinearLayout>
-                </FrameLayout>
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp">
-                    <FrameLayout
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_margin="20dp"
-                    android:background="@drawable/diamond_border"
-                    android:rotation="45">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:src="@drawable/ic_home"
-                            android:rotation="-45"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Remove Ads"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"
-                            android:rotation="-45"/>
-                    </LinearLayout>
-                </FrameLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxWidth="50dp"
+                                android:text="Music"
+                                android:textColor="@color/black"
+                                android:textSize="10sp"
+                                android:gravity="center"
+                                android:maxLines="2"
+                                android:layout_marginTop="2dp"/>
+                        </LinearLayout>
+                    </FrameLayout>
                 </FrameLayout>
 
                 <FrameLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp">
+                    android:layout_height="wrap_content">
                     <FrameLayout
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_margin="20dp"
-                    android:background="@drawable/diamond_border"
-                    android:rotation="45">
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_margin="20dp"
+                        android:background="@drawable/diamond_border"
+                        android:rotation="45">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:rotation="-45">
 
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:src="@drawable/ic_home"
-                            android:rotation="-45"/>
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/ic_duplicate_finder"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Remove Ads"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"
-                            android:rotation="-45"/>
-                    </LinearLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxWidth="50dp"
+                                android:text="Duplicate Finder"
+                                android:textColor="@color/black"
+                                android:textSize="10sp"
+                                android:gravity="center"
+                                android:maxLines="2"
+                                android:layout_marginTop="2dp"/>
+                        </LinearLayout>
+                    </FrameLayout>
                 </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <FrameLayout
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_margin="20dp"
+                        android:background="@drawable/diamond_border"
+                        android:rotation="45">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:rotation="-45">
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/ic_playlist"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxWidth="50dp"
+                                android:text="Playlist"
+                                android:textColor="@color/black"
+                                android:textSize="10sp"
+                                android:gravity="center"
+                                android:maxLines="2"
+                                android:layout_marginTop="2dp"/>
+                        </LinearLayout>
+                    </FrameLayout>
                 </FrameLayout>
 
             </LinearLayout>
