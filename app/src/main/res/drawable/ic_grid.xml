@@ -1,9 +1,15 @@
-<vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="24dp"
-    android:height="24dp"
-    android:viewportWidth="24"
-    android:viewportHeight="24">
-    <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M4,10h4V4H4v6zm6,0h4V4h-4v6zm6,0h4V4h-4v6zM4,20h4v-6H4v6zm6,0h4v-6h-4v6zm6,0h4v-6h-4v6z"/>
+<vector android:height="24dp" android:tint="#FFFFFF"
+    android:viewportHeight="24" android:viewportWidth="24"
+    android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Top-left square -->
+    <path android:fillColor="@android:color/white" android:pathData="M3,3h8v8h-8z"/>
+
+    <!-- Bottom-left square -->
+    <path android:fillColor="@android:color/white" android:pathData="M3,12h8v8h-8z"/>
+
+    <!-- Top-right square -->
+    <path android:fillColor="@android:color/white" android:pathData="M12,3h8v8h-8z"/>
+
+    <!-- Bottom-right circle with 8mm diameter (4 unit radius in this coordinate system) -->
+    <path android:fillColor="@android:color/white" android:pathData="M16,16m-4,0a4,4 0,1 1 8 0a4,4 0,1 1,-8 0"/>
 </vector>
