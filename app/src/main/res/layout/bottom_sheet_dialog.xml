@@ -4,30 +4,58 @@
     android:layout_height="match_parent"
     android:background="@color/black">
 
+    <!-- Down Button positioned at the top center -->
+    <FrameLayout
+        android:id="@+id/downButtonContainer"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:rotation="45"
+        android:elevation="8dp">
+
+        <View
+            android:id="@+id/squareButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/fab_background" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_download"
+            android:layout_gravity="center"
+            android:rotation="-45"/>
+    </FrameLayout>
+
+    <com.example.appbardemo.ui.theme.CurvedTopSheetView
+        android:id="@+id/curvedTopSheetBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/downButtonContainer"
+        android:layout_marginTop="-30dp" />
+
     <LinearLayout
         android:id="@+id/bottomNavLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="55dp"
-        android:background="@drawable/bottom_linear_bg"
+        android:layout_below="@id/downButtonContainer"
+        android:background="@android:color/transparent"
         android:gravity="center"
         android:orientation="horizontal">
-
 
         <FrameLayout
             android:id="@+id/overlappingLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="450dp"
-            android:layout_above="@id/fabContainer">
-
+            android:minHeight="450dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|start"
                 android:layout_marginStart="35dp"
-                android:layout_marginTop="-20dp"
+                android:layout_marginTop="-50dp"
                 android:orientation="vertical">
 
                 <FrameLayout
@@ -150,7 +178,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
                 <FrameLayout
@@ -274,7 +302,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|end"
                 android:layout_marginEnd="35dp"
-                android:layout_marginTop="-20dp"
+                android:layout_marginTop="-50dp"
                 android:orientation="vertical">
 
                 <FrameLayout
@@ -397,28 +425,6 @@
 
     </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/fabContainer"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:rotation="45"
-        android:elevation="8dp">
-
-        <View
-            android:id="@+id/squareFab"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/fab_background" />
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/ic_download"
-            android:layout_gravity="center"
-            android:rotation="-45"/>
-    </FrameLayout>
 
 
 </RelativeLayout>
