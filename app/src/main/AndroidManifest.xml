@@ -26,6 +26,10 @@
         <activity
             android:name=".ui.theme.MusicActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".ui.theme.SettingsActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

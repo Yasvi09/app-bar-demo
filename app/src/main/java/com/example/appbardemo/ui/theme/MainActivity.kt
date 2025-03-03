@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.appbardemo.R
@@ -30,6 +31,13 @@ class MainActivity : AppCompatActivity() {
         curvedBottomNav.setCornerRadius(40f)
         curvedBottomNav.setFabSize(200f)
         curvedBottomNav.setNotchCornerRadius(20f)
+
+        // Add settings icon click listener
+        findViewById<ImageView>(R.id.settingsIcon).setOnClickListener {
+            // Launch settings activity
+            val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun showMenu() {

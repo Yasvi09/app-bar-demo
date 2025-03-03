@@ -52,8 +52,8 @@ class MusicActivity : AppCompatActivity() {
     }
 
     private fun setupBottomNavigation() {
-        // Set the navigation bar to grey color
-        curvedBottomNav.setNavColor(getColor(android.R.color.darker_gray))
+        // Set the navigation bar to color #727272
+        curvedBottomNav.setNavColor(getColor(R.color.grey))
         curvedBottomNav.setCornerRadius(40f)
         curvedBottomNav.setFabSize(200f)
         curvedBottomNav.setNotchCornerRadius(20f)
@@ -68,10 +68,12 @@ class MusicActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
-
-        // Set settings icon click listener
+        
+        // Add settings icon click listener
         findViewById<ImageView>(R.id.settingsIcon).setOnClickListener {
-            // Handle settings click
+            // Launch settings activity
+            val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
         }
 
         // Set FAB click listener
