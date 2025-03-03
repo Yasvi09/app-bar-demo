@@ -52,7 +52,8 @@ class MainActivity : AppCompatActivity() {
         bottomSheetView.post{
             val parent=bottomSheetView.parent as View
             val behavior=BottomSheetBehavior.from(parent)
-            behavior.peekHeight=1880
+            behavior.state=BottomSheetBehavior.STATE_EXPANDED
+            behavior.isDraggable=false
         }
         bottomSheetDialog.show()
 

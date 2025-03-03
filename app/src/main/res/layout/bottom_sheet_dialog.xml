@@ -9,7 +9,7 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="150dp"
         android:rotation="45"
         android:elevation="8dp">
 
@@ -30,9 +30,9 @@
     <com.example.appbardemo.ui.theme.CurvedTopSheetView
         android:id="@+id/curvedTopSheetBackground"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="602dp"
         android:layout_below="@id/downButtonContainer"
-        android:layout_marginTop="-35dp" />
+        android:layout_marginTop="-20dp" />
 
     <LinearLayout
         android:id="@+id/bottomNavLayout"
@@ -46,15 +46,14 @@
         <FrameLayout
             android:id="@+id/overlappingLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:minHeight="500dp">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|start"
                 android:layout_marginStart="40dp"
-                android:layout_marginTop="-80dp"
+                android:layout_marginTop="-40dp"
                 android:orientation="vertical">
 
                 <FrameLayout
@@ -179,7 +178,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="40dp"
                 android:orientation="vertical">
 
                 <FrameLayout
@@ -305,7 +304,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|end"
-                android:layout_marginTop="-80dp"
+                android:layout_marginTop="-40dp"
                 android:layout_marginEnd="40dp"
                 android:orientation="vertical">
 
