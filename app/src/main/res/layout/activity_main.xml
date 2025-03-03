@@ -38,7 +38,9 @@
             android:layout_height="30dp"
             android:src="@drawable/ic_home"
             android:layout_weight="1"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="-35dp"/>
 
         <View
             android:layout_width="0dp"
@@ -49,9 +51,10 @@
             android:id="@+id/settingsIcon"
             android:layout_width="0dp"
             android:layout_height="30dp"
-            android:src="@drawable/ic_setting"
+            android:src="@drawable/ic_settings"
             android:layout_weight="1"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:layout_marginRight="-40dp"/>
     </LinearLayout>
 
     <FrameLayout

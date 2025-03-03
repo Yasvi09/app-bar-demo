@@ -5,7 +5,7 @@
     android:background="@color/black">
 
     <FrameLayout
-            android:id="@+id/downButtonContainer"
+        android:id="@+id/downButtonContainer"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_centerHorizontal="true"
@@ -47,14 +47,14 @@
             android:id="@+id/overlappingLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="450dp">
+            android:minHeight="600dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|start"
-                android:layout_marginStart="35dp"
-                android:layout_marginTop="-50dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="-80dp"
                 android:orientation="vertical">
 
                 <FrameLayout
@@ -64,7 +64,8 @@
                     <FrameLayout
                         android:layout_width="80dp"
                         android:layout_height="80dp"
-                        android:layout_margin="20dp"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginVertical="40dp"
                         android:background="@drawable/diamond_border"
                         android:rotation="45">
 
@@ -87,10 +88,9 @@
                                 android:layout_marginTop="2dp"
                                 android:gravity="center"
                                 android:maxWidth="50dp"
-                                android:maxLines="2"
-                                android:text="Duplicate FInder"
+                                android:text="Video"
                                 android:textColor="@color/black"
-                                android:textSize="10sp" />
+                                android:textSize="12sp" />
                         </LinearLayout>
                     </FrameLayout>
                 </FrameLayout>
@@ -102,7 +102,8 @@
                     <FrameLayout
                         android:layout_width="80dp"
                         android:layout_height="80dp"
-                        android:layout_margin="20dp"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginVertical="40dp"
                         android:background="@drawable/diamond_border"
                         android:rotation="45">
 
@@ -128,7 +129,7 @@
                                 android:maxLines="2"
                                 android:text="Stream"
                                 android:textColor="@color/black"
-                                android:textSize="10sp" />
+                                android:textSize="12sp" />
                         </LinearLayout>
                     </FrameLayout>
                 </FrameLayout>
@@ -140,7 +141,8 @@
                     <FrameLayout
                         android:layout_width="80dp"
                         android:layout_height="80dp"
-                        android:layout_margin="20dp"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginVertical="40dp"
                         android:background="@drawable/diamond_border"
                         android:rotation="45">
 
@@ -166,7 +168,7 @@
                                 android:maxLines="2"
                                 android:text="Private"
                                 android:textColor="@color/black"
-                                android:textSize="10sp" />
+                                android:textSize="12sp" />
                         </LinearLayout>
                     </FrameLayout>
                 </FrameLayout>
@@ -177,7 +179,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="10dp"
+               android:layout_marginTop="8dp"
                 android:orientation="vertical">
 
                 <FrameLayout
@@ -187,7 +189,8 @@
                     <FrameLayout
                         android:layout_width="80dp"
                         android:layout_height="80dp"
-                        android:layout_margin="20dp"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginVertical="40dp"
                         android:background="@drawable/diamond_border"
                         android:rotation="45">
 
@@ -213,7 +216,7 @@
                                 android:maxLines="2"
                                 android:text="Theme"
                                 android:textColor="@color/black"
-                                android:textSize="10sp" />
+                                android:textSize="12sp" />
                         </LinearLayout>
                     </FrameLayout>
                 </FrameLayout>
@@ -225,7 +228,8 @@
                     <FrameLayout
                         android:layout_width="80dp"
                         android:layout_height="80dp"
-                        android:layout_margin="20dp"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginVertical="40dp"
                         android:background="@drawable/diamond_border"
                         android:rotation="45">
 
@@ -251,7 +255,7 @@
                                 android:maxLines="2"
                                 android:text="MP3 Cutter"
                                 android:textColor="@color/black"
-                                android:textSize="10sp" />
+                                android:textSize="12sp" />
                         </LinearLayout>
                     </FrameLayout>
                 </FrameLayout>
@@ -263,7 +267,8 @@
                     <FrameLayout
                         android:layout_width="80dp"
                         android:layout_height="80dp"
-                        android:layout_margin="20dp"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginVertical="40dp"
                         android:background="@drawable/diamond_border"
                         android:rotation="45">
 
@@ -289,7 +294,7 @@
                                 android:maxLines="2"
                                 android:text="Remove Ads"
                                 android:textColor="@color/black"
-                                android:textSize="10sp" />
+                                android:textSize="12sp" />
                         </LinearLayout>
                     </FrameLayout>
                 </FrameLayout>
@@ -300,8 +305,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|end"
-                android:layout_marginEnd="35dp"
-                android:layout_marginTop="-50dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginTop="-80dp"
                 android:orientation="vertical">
 
                 <FrameLayout
@@ -311,7 +316,8 @@
                     <FrameLayout
                         android:layout_width="80dp"
                         android:layout_height="80dp"
-                        android:layout_margin="20dp"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginVertical="40dp"
                         android:background="@drawable/diamond_border"
                         android:rotation="45">
 
@@ -337,7 +343,7 @@
                                 android:maxLines="2"
                                 android:text="Music"
                                 android:textColor="@color/black"
-                                android:textSize="10sp" />
+                                android:textSize="12sp" />
                         </LinearLayout>
                     </FrameLayout>
                 </FrameLayout>
@@ -349,7 +355,8 @@
                     <FrameLayout
                         android:layout_width="80dp"
                         android:layout_height="80dp"
-                        android:layout_margin="20dp"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginVertical="40dp"
                         android:background="@drawable/diamond_border"
                         android:rotation="45">
 
@@ -375,7 +382,7 @@
                                 android:maxLines="2"
                                 android:text="Duplicate Finder"
                                 android:textColor="@color/black"
-                                android:textSize="10sp" />
+                                android:textSize="12sp" />
                         </LinearLayout>
                     </FrameLayout>
                 </FrameLayout>
@@ -387,7 +394,8 @@
                     <FrameLayout
                         android:layout_width="80dp"
                         android:layout_height="80dp"
-                        android:layout_margin="20dp"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginVertical="40dp"
                         android:background="@drawable/diamond_border"
                         android:rotation="45">
 
@@ -413,7 +421,7 @@
                                 android:maxLines="2"
                                 android:text="Playlist"
                                 android:textColor="@color/black"
-                                android:textSize="10sp" />
+                                android:textSize="12sp" />
                         </LinearLayout>
                     </FrameLayout>
                 </FrameLayout>
