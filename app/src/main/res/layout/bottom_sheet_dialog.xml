@@ -6,10 +6,10 @@
 
     <FrameLayout
         android:id="@+id/downButtonContainer"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="80dp"
         android:rotation="45"
         android:elevation="8dp">
 
@@ -20,9 +20,9 @@
             android:background="@drawable/fab_background" />
 
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/ic_download"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_down"
             android:layout_gravity="center"
             android:rotation="-45"/>
     </FrameLayout>
@@ -32,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/downButtonContainer"
-        android:layout_marginTop="-30dp" />
+        android:layout_marginTop="-35dp" />
 
     <LinearLayout
         android:id="@+id/bottomNavLayout"
@@ -46,14 +46,14 @@
         <FrameLayout
             android:id="@+id/overlappingLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="600dp">
+            android:layout_height="match_parent"
+            android:minHeight="500dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|start"
-                android:layout_marginStart="30dp"
+                android:layout_marginStart="40dp"
                 android:layout_marginTop="-80dp"
                 android:orientation="vertical">
 
@@ -78,8 +78,8 @@
                             android:rotation="-45">
 
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
                                 android:src="@drawable/ic_video" />
 
                             <TextView
@@ -116,8 +116,8 @@
                             android:rotation="-45">
 
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
                                 android:src="@drawable/ic_stream" />
 
                             <TextView
@@ -155,8 +155,8 @@
                             android:rotation="-45">
 
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
                                 android:src="@drawable/ic_private" />
 
                             <TextView
@@ -179,7 +179,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-               android:layout_marginTop="8dp"
+                android:layout_marginTop="8dp"
                 android:orientation="vertical">
 
                 <FrameLayout
@@ -203,8 +203,8 @@
                             android:rotation="-45">
 
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
                                 android:src="@drawable/ic_theme" />
 
                             <TextView
@@ -242,8 +242,8 @@
                             android:rotation="-45">
 
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
                                 android:src="@drawable/ic_mp3_cutter" />
 
                             <TextView
@@ -281,8 +281,8 @@
                             android:rotation="-45">
 
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
                                 android:src="@drawable/ic_remove_ads" />
 
                             <TextView
@@ -305,8 +305,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|end"
-                android:layout_marginEnd="30dp"
                 android:layout_marginTop="-80dp"
+                android:layout_marginEnd="40dp"
                 android:orientation="vertical">
 
                 <FrameLayout
@@ -330,8 +330,8 @@
                             android:rotation="-45">
 
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
                                 android:src="@drawable/ic_music" />
 
                             <TextView
@@ -369,8 +369,8 @@
                             android:rotation="-45">
 
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
                                 android:src="@drawable/ic_duplicate_finder" />
 
                             <TextView
@@ -408,8 +408,8 @@
                             android:rotation="-45">
 
                             <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
                                 android:src="@drawable/ic_playlist" />
 
                             <TextView

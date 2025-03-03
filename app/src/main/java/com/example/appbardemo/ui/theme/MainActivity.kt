@@ -2,10 +2,12 @@ package com.example.appbardemo.ui.theme
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.appbardemo.R
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class MainActivity : AppCompatActivity() {
@@ -25,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         curvedBottomNav.setNavColor(getColor(R.color.white))
         curvedBottomNav.setCornerRadius(40f)
-        curvedBottomNav.setFabSize(220f)
+        curvedBottomNav.setFabSize(200f)
         curvedBottomNav.setNotchCornerRadius(20f)
     }
 
@@ -46,6 +48,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         bottomSheetDialog.setContentView(bottomSheetView)
+
+        bottomSheetView.post{
+            val parent=bottomSheetView.parent as View
+            val behavior=BottomSheetBehavior.from(parent)
+            behavior.peekHeight=1880
+        }
         bottomSheetDialog.show()
 
     }

@@ -34,7 +34,7 @@ class CurvedBottomNavigationView @JvmOverloads constructor(
         val height = height.toFloat()
 
         val notchWidth = fabSizeValue * sqrt(2f)
-        val notchDepth = notchWidth / 2
+        val notchDepth = notchWidth / 2 + 10
 
         val centerX = width / 2f
 
@@ -50,27 +50,22 @@ class CurvedBottomNavigationView @JvmOverloads constructor(
         val rightNotchX = centerX + notchWidth/2
         val notchBottomY = notchDepth
 
-        path.lineTo(leftNotchX + notchCornerRadiusValue, 0f)
-        path.quadTo(leftNotchX, 0f, leftNotchX + notchCornerRadiusValue, notchCornerRadiusValue)
+        path.lineTo(leftNotchX , 0f)
+        path.quadTo(leftNotchX, notchCornerRadiusValue/2, leftNotchX + notchCornerRadiusValue/2, notchCornerRadiusValue)
 
         path.lineTo(centerX - notchCornerRadiusValue, notchBottomY - notchCornerRadiusValue)
-
         path.quadTo(centerX, notchBottomY, centerX + notchCornerRadiusValue, notchBottomY - notchCornerRadiusValue)
 
-        path.lineTo(rightNotchX - notchCornerRadiusValue, notchCornerRadiusValue)
-
-        path.quadTo(rightNotchX, 0f, rightNotchX - notchCornerRadiusValue, 0f)
+        path.lineTo(rightNotchX - notchCornerRadiusValue/2, notchCornerRadiusValue)
+        path.quadTo(rightNotchX, notchCornerRadiusValue/2, rightNotchX, 0f)
 
         path.lineTo(width - cornerRadiusValue, 0f)
-
         path.quadTo(width, 0f, width, cornerRadiusValue)
 
         path.lineTo(width, height)
-
         path.lineTo(0f, height)
 
         path.lineTo(0f, cornerRadiusValue)
-
         path.close()
 
         paint.color = navColor
