@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Gradient border layer - now with more yellow start color -->
+
     <item>
         <shape>
             <gradient
@@ -11,7 +11,6 @@
         </shape>
     </item>
 
-    <!-- White fill with inset to create border effect -->
     <item android:left="3dp" android:top="3dp" android:right="3dp" android:bottom="3dp">
         <shape>
             <solid android:color="@color/white"/>

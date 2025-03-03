@@ -4,9 +4,8 @@
     android:layout_height="match_parent"
     android:background="@color/black">
 
-    <!-- Down Button positioned at the top center -->
     <FrameLayout
-        android:id="@+id/downButtonContainer"
+            android:id="@+id/downButtonContainer"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_centerHorizontal="true"
