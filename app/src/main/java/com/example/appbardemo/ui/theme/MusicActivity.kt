@@ -1,9 +1,14 @@
 package com.example.appbardemo.ui.theme
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.FrameLayout
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.example.appbardemo.R
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -11,6 +16,8 @@ class MusicActivity : AppCompatActivity() {
 
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager: ViewPager2
+    private lateinit var curvedBottomNav: CurvedBottomNavigationView
+    private lateinit var fabContainer: FrameLayout
     private val tabTitles = arrayOf("ALBUM", "SONGS", "ARTIST", "FOLDER", "PLAYLIST")
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,6 +27,8 @@ class MusicActivity : AppCompatActivity() {
         // Initialize views
         tabLayout = findViewById(R.id.tabLayout)
         viewPager = findViewById(R.id.viewPager)
+        curvedBottomNav = findViewById(R.id.curvedBottomNavBackground)
+        fabContainer = findViewById(R.id.fabContainer)
 
         // Set up the ViewPager with the adapter
         val pagerAdapter = MusicPagerAdapter(this, tabTitles.size)
@@ -31,8 +40,70 @@ class MusicActivity : AppCompatActivity() {
         }.attach()
 
         // Set back button click listener
-        findViewById<android.widget.ImageView>(R.id.backButton).setOnClickListener {
+        findViewById<ImageView>(R.id.backButton).setOnClickListener {
             finish()
         }
+
+        // Configure the curved bottom navigation with grey color
+        setupBottomNavigation()
+
+        // Set click listeners for bottom nav
+        setupClickListeners()
+    }
+
+    private fun setupBottomNavigation() {
+        // Set the navigation bar to grey color
+        curvedBottomNav.setNavColor(getColor(android.R.color.darker_gray))
+        curvedBottomNav.setCornerRadius(40f)
+        curvedBottomNav.setFabSize(200f)
+        curvedBottomNav.setNotchCornerRadius(20f)
+    }
+
+    private fun setupClickListeners() {
+        // Set home icon click listener
+        findViewById<ImageView>(R.id.homeIcon).setOnClickListener {
+            // Navigate back to main activity
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            startActivity(intent)
+            finish()
+        }
+
+        // Set settings icon click listener
+        findViewById<ImageView>(R.id.settingsIcon).setOnClickListener {
+            // Handle settings click
+        }
+
+        // Set FAB click listener
+        fabContainer.setOnClickListener {
+            showMenu()
+        }
+    }
+
+    private fun showMenu() {
+        val bottomSheetDialog = BottomSheetDialog(this)
+        val bottomSheetView = layoutInflater.inflate(R.layout.bottom_sheet_dialog, null)
+
+        val curvedTopSheet = bottomSheetView.findViewById<CurvedTopSheetView>(R.id.curvedTopSheetBackground)
+        curvedTopSheet.setSheetColor(getColor(R.color.white))
+        curvedTopSheet.setCornerRadius(150f)
+        curvedTopSheet.setButtonSize(220f)
+        curvedTopSheet.setNotchCornerRadius(20f)
+
+        val downButtonContainer = bottomSheetView.findViewById<FrameLayout>(R.id.downButtonContainer)
+        downButtonContainer.setOnClickListener {
+            bottomSheetDialog.dismiss()
+        }
+
+        bottomSheetDialog.setContentView(bottomSheetView)
+
+        bottomSheetView.post {
+            val parent = bottomSheetView.parent as View
+            val behavior = com.google.android.material.bottomsheet.BottomSheetBehavior.from(parent)
+            behavior.state = com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
+            behavior.isDraggable = false
+        }
+
+        bottomSheetDialog.show()
     }
 }

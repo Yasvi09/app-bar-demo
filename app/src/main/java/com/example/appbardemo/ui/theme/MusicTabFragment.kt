@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appbardemo.R
@@ -40,7 +41,12 @@ class MusicTabFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_music_tab, container, false)
+        // Select different layout files based on tab type
+        val layoutRes = when (tabType) {
+            "folder" -> R.layout.fragment_folder_tab
+            else -> R.layout.fragment_music_tab
+        }
+        return inflater.inflate(layoutRes, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,20 +62,18 @@ class MusicTabFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        recyclerView.layoutManager = LinearLayoutManager(context)
-
-        // For folder view, use a different layout if needed
+        // Configure different layouts for different tab types
         when (tabType) {
-            "album" -> {
-                // Grid layout for albums
-                recyclerView.layoutManager = androidx.recyclerview.widget.GridLayoutManager(context, 2)
+            "album", "artist", "playlist" -> {
+                // Grid layout for albums, artists, and playlists
+                recyclerView.layoutManager = GridLayoutManager(context, 2)
             }
-            "artist" -> {
-                // Grid layout for artists
-                recyclerView.layoutManager = androidx.recyclerview.widget.GridLayoutManager(context, 2)
+            "folder" -> {
+                // Linear layout for folders with specific adapter
+                recyclerView.layoutManager = LinearLayoutManager(context)
             }
             else -> {
-                // Linear layout for songs, folders, playlists
+                // Linear layout for songs
                 recyclerView.layoutManager = LinearLayoutManager(context)
             }
         }
@@ -93,7 +97,13 @@ class MusicTabFragment : Fragment() {
         } else {
             recyclerView.visibility = View.VISIBLE
             emptyText.visibility = View.GONE
-            recyclerView.adapter = MusicAdapter(items, tabType ?: "")
+
+            // Use specific adapter based on tab type
+            if (tabType == "folder") {
+                recyclerView.adapter = FolderAdapter(items)
+            } else {
+                recyclerView.adapter = MusicAdapter(items, tabType ?: "")
+            }
         }
     }
 
