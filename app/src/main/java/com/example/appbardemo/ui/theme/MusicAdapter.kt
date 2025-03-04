@@ -1,5 +1,6 @@
 package com.example.appbardemo.ui.theme
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,7 +35,6 @@ class MusicAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-
         return when (type) {
             "album", "artist", "playlist" -> VIEW_TYPE_GRID
             else -> VIEW_TYPE_SONG
@@ -59,22 +59,30 @@ class MusicAdapter(
 
         when (holder) {
             is GridViewHolder -> {
-
                 holder.title.text = item.title
                 holder.subtitle.text = item.subtitle
                 holder.image.setImageResource(item.iconResId)
 
                 holder.optionsButton.setOnClickListener {
-
+                    // Handle options menu click
                 }
 
                 holder.itemView.setOnClickListener {
-
+                    when (type) {
+                        "album" -> {
+                            // Open album details
+                        }
+                        "artist" -> {
+                            // Open artist details
+                        }
+                        "playlist" -> {
+                            // Open playlist
+                        }
+                    }
                 }
             }
 
             is SongViewHolder -> {
-
                 holder.title.text = item.title
                 holder.subtitle.text = item.subtitle
                 holder.icon.setImageResource(item.iconResId)
@@ -86,15 +94,27 @@ class MusicAdapter(
                 }
 
                 holder.itemView.setOnClickListener {
-
+                    if (type == "songs") {
+                        // Launch Play Song Activity
+                        val intent = Intent(holder.itemView.context, PlaySongActivity::class.java).apply {
+                            putExtra(PlaySongActivity.EXTRA_SONG_TITLE, item.title)
+                            putExtra(PlaySongActivity.EXTRA_ARTIST_NAME, item.subtitle)
+                            putExtra(PlaySongActivity.EXTRA_ALBUM_NAME, "Your Music")
+                            putExtra(PlaySongActivity.EXTRA_TRACK_NUMBER, position + 1)
+                            putExtra(PlaySongActivity.EXTRA_TOTAL_TRACKS, items.size)
+                            putExtra(PlaySongActivity.EXTRA_DURATION, 180 + position * 30) // Random duration based on position
+                            putExtra(PlaySongActivity.EXTRA_IMAGE_RES_ID, item.iconResId)
+                            putExtra(PlaySongActivity.EXTRA_SONG_ID, position)
+                        }
+                        holder.itemView.context.startActivity(intent)
+                    }
                 }
 
                 holder.optionsButton.setOnClickListener {
-
+                    // Show options menu
                 }
 
                 holder.favoriteButton.setOnClickListener {
-
                     toggleFavorite(holder.favoriteButton)
                 }
             }
@@ -114,3 +134,5 @@ class MusicAdapter(
 
     override fun getItemCount(): Int = items.size
 }
+
+

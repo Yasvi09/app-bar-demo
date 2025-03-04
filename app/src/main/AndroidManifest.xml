@@ -12,7 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="31">
-
+        <activity
+            android:name=".ui.theme.PlaySongActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.theme.MainActivity"
             android:exported="true">
@@ -22,11 +24,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.theme.MusicActivity"
             android:exported="false" />
-
         <activity
             android:name=".ui.theme.SettingsActivity"
             android:exported="false" />
