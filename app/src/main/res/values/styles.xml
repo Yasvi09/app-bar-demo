@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Green switch theme for settings -->
+
     <style name="GreenSwitch" parent="Theme.AppCompat.Light">
-        <!-- Active thumb & track color (when enabled) -->
         <item name="colorControlActivated">#CBFB0B</item>
-        <!-- Inactive thumb color -->
         <item name="colorSwitchThumbNormal">#f1f1f1</item>
-        <!-- Inactive track color (30% transparency) -->
         <item name="android:colorForeground">#CBFB0B</item>
+    </style>
+    
+    <style name="RoundedSquare">
+        <item name="cornerSize">30%</item>
     </style>
 </resources>

@@ -36,12 +36,8 @@ class MusicTabFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Select different layout files based on tab type
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
         val layoutRes = when (tabType) {
             "folder" -> R.layout.fragment_folder_tab
             else -> R.layout.fragment_music_tab
@@ -57,31 +53,25 @@ class MusicTabFragment : Fragment() {
 
         setupRecyclerView()
 
-        // Load data based on tab type
         loadData()
     }
 
     private fun setupRecyclerView() {
-        // Configure different layouts for different tab types
+
         when (tabType) {
             "album", "artist", "playlist" -> {
-                // Grid layout for albums, artists, and playlists
                 recyclerView.layoutManager = GridLayoutManager(context, 2)
             }
             "folder" -> {
-                // Linear layout for folders with specific adapter
                 recyclerView.layoutManager = LinearLayoutManager(context)
             }
             else -> {
-                // Linear layout for songs
                 recyclerView.layoutManager = LinearLayoutManager(context)
             }
         }
     }
 
     private fun loadData() {
-        // In a real app, you would load data from a database or content provider
-        // For this demo, we'll just create some sample data
         val items = when (tabType) {
             "album" -> createAlbumItems()
             "songs" -> createSongItems()
@@ -98,7 +88,6 @@ class MusicTabFragment : Fragment() {
             recyclerView.visibility = View.VISIBLE
             emptyText.visibility = View.GONE
 
-            // Use specific adapter based on tab type
             if (tabType == "folder") {
                 recyclerView.adapter = FolderAdapter(items)
             } else {
@@ -108,7 +97,7 @@ class MusicTabFragment : Fragment() {
     }
 
     private fun createAlbumItems(): List<MusicItem> {
-        // Sample album data
+
         return listOf(
             MusicItem("Senorita", "Shawn Mendes", "album", R.drawable.album),
             MusicItem("Blinding Lights", "The Weeknd", "album", R.drawable.album),
@@ -118,7 +107,6 @@ class MusicTabFragment : Fragment() {
     }
 
     private fun createSongItems(): List<MusicItem> {
-        // Sample song data
         return listOf(
             MusicItem("Senorita", "Shawn Mendes", "song", R.drawable.album),
             MusicItem("Blinding Lights", "The Weeknd", "song", R.drawable.album),
@@ -134,7 +122,6 @@ class MusicTabFragment : Fragment() {
     }
 
     private fun createArtistItems(): List<MusicItem> {
-        // Sample artist data
         return listOf(
             MusicItem("Alan Walker", "15 songs", "artist", R.drawable.artist),
             MusicItem("Ed Sheeran", "23 songs", "artist", R.drawable.artist),
@@ -144,7 +131,7 @@ class MusicTabFragment : Fragment() {
     }
 
     private fun createFolderItems(): List<MusicItem> {
-        // Sample folder data
+
         return listOf(
             MusicItem("Folder 1", "8 items", "folder", R.drawable.ic_folder),
             MusicItem("Download", "15 items", "folder", R.drawable.ic_folder),
@@ -154,7 +141,6 @@ class MusicTabFragment : Fragment() {
     }
 
     private fun createPlaylistItems(): List<MusicItem> {
-        // Sample playlist data
         return listOf(
             MusicItem("My Favorites", "18 songs", "playlist", R.drawable.ic_playlist),
             MusicItem("Workout", "12 songs", "playlist", R.drawable.ic_playlist),

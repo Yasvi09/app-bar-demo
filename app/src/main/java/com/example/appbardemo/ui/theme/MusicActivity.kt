@@ -24,35 +24,28 @@ class MusicActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_music)
 
-        // Initialize views
         tabLayout = findViewById(R.id.tabLayout)
         viewPager = findViewById(R.id.viewPager)
         curvedBottomNav = findViewById(R.id.curvedBottomNavBackground)
         fabContainer = findViewById(R.id.fabContainer)
 
-        // Set up the ViewPager with the adapter
         val pagerAdapter = MusicPagerAdapter(this, tabTitles.size)
         viewPager.adapter = pagerAdapter
 
-        // Connect the TabLayout with the ViewPager
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = tabTitles[position]
         }.attach()
 
-        // Set back button click listener
         findViewById<ImageView>(R.id.backButton).setOnClickListener {
             finish()
         }
 
-        // Configure the curved bottom navigation with grey color
         setupBottomNavigation()
 
-        // Set click listeners for bottom nav
         setupClickListeners()
     }
 
     private fun setupBottomNavigation() {
-        // Set the navigation bar to color #727272
         curvedBottomNav.setNavColor(getColor(R.color.grey))
         curvedBottomNav.setCornerRadius(40f)
         curvedBottomNav.setFabSize(200f)
@@ -60,9 +53,7 @@ class MusicActivity : AppCompatActivity() {
     }
 
     private fun setupClickListeners() {
-        // Set home icon click listener
         findViewById<ImageView>(R.id.homeIcon).setOnClickListener {
-            // Navigate back to main activity
             val intent = Intent(this, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
             startActivity(intent)

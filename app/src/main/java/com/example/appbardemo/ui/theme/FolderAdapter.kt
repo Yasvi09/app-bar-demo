@@ -33,11 +33,11 @@ class FolderAdapter(
         holder.folderIcon.setImageResource(item.iconResId)
 
         holder.itemView.setOnClickListener {
-            // Handle folder click
+
         }
 
         holder.optionsButton.setOnClickListener {
-            // Show options menu
+
         }
     }
 

@@ -60,11 +60,21 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:src="@drawable/ic_search1"
+        app:layout_constraintEnd_toStartOf="@id/menuButton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/white" />
+
+    <ImageView
+        android:id="@+id/menuButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/ic_menu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/white" />
 
-    <!-- Added Curved Bottom Navigation -->
     <com.example.appbardemo.ui.theme.CurvedBottomNavigationView
         android:id="@+id/curvedBottomNavBackground"
         android:layout_width="match_parent"

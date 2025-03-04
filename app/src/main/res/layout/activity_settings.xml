@@ -9,10 +9,10 @@
 
     <ImageView
         android:id="@+id/backButton"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="25dp"
         android:src="@drawable/ic_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -26,7 +26,7 @@
         android:layout_marginTop="16dp"
         android:text="Settings"
         android:textColor="@color/white"
-        android:textSize="18sp"
+        android:textSize="25dp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/backButton"
         app:layout_constraintTop_toTopOf="parent" />
@@ -44,7 +44,6 @@
             android:orientation="vertical"
             android:paddingBottom="16dp">
 
-            <!-- Premium Section -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -81,9 +80,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="16dp"
-                android:background="#333333" />
+                android:background="#939393" />
 
-            <!-- General Section -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -144,7 +142,7 @@
                     android:layout_centerVertical="true"
                     android:text="English"
                     android:textColor="#CBFB0B"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"/>
             </RelativeLayout>
 
             <RelativeLayout
@@ -178,9 +176,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="16dp"
-                android:background="#333333" />
+                android:background="#939393" />
 
-            <!-- Playback Section -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -324,9 +321,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="16dp"
-                android:background="#333333" />
+                android:background="#939393" />
 
-            <!-- Help Section -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -374,9 +370,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="16dp"
-                android:background="#333333" />
+                android:background="#939393" />
 
-            <!-- About Section -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

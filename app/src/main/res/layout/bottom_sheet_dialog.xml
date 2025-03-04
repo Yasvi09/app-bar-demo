@@ -30,7 +30,7 @@
     <com.example.appbardemo.ui.theme.CurvedTopSheetView
         android:id="@+id/curvedTopSheetBackground"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="550dp"
         android:layout_below="@id/downButtonContainer"
         android:layout_marginTop="-30dp" />
 

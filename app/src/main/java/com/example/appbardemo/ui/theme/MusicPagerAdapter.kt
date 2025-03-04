@@ -9,7 +9,7 @@ class MusicPagerAdapter(activity: FragmentActivity, private val tabCount: Int) :
     override fun getItemCount(): Int = tabCount
 
     override fun createFragment(position: Int): Fragment {
-        // Create different fragments based on position
+
         return when (position) {
             0 -> MusicTabFragment.newInstance("album")
             1 -> MusicTabFragment.newInstance("songs")

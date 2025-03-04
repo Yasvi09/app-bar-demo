@@ -20,6 +20,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        init()
+    }
+
+    private fun init(){
         fabLayout = findViewById(R.id.fabContainer)
         fabLayout.setOnClickListener {
             showMenu()
@@ -32,9 +36,7 @@ class MainActivity : AppCompatActivity() {
         curvedBottomNav.setFabSize(200f)
         curvedBottomNav.setNotchCornerRadius(20f)
 
-        // Add settings icon click listener
         findViewById<ImageView>(R.id.settingsIcon).setOnClickListener {
-            // Launch settings activity
             val intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
         }
@@ -55,10 +57,9 @@ class MainActivity : AppCompatActivity() {
             bottomSheetDialog.dismiss()
         }
 
-        // Find the music button using our helper method
         val musicButtonContainer = findButtonByText(bottomSheetView, "Music")
         musicButtonContainer?.setOnClickListener {
-            // Launch the Music Activity
+
             val intent = Intent(this, MusicActivity::class.java)
             startActivity(intent)
             bottomSheetDialog.dismiss()
@@ -75,15 +76,12 @@ class MainActivity : AppCompatActivity() {
         bottomSheetDialog.show()
     }
 
-    // Helper method to find a button container by the text label
     private fun findButtonByText(rootView: View, buttonText: String): FrameLayout? {
-        // Find all TextViews in the bottom sheet that match our text
+
         val matchingTextViews = findViewsWithText(rootView, buttonText)
 
-        // For each matching TextView, find its diamond container
         for (textView in matchingTextViews) {
-            // Find the diamond-shaped FrameLayout (the button container)
-            // It should be rotated by 45 degrees
+
             val diamondContainer = findParentWithRotation(textView, 45f)
             if (diamondContainer is FrameLayout) {
                 return diamondContainer
@@ -93,41 +91,34 @@ class MainActivity : AppCompatActivity() {
         return null
     }
 
-    // Helper method to find all TextViews with specific text
     private fun findViewsWithText(view: View, text: String): List<TextView> {
         val result = mutableListOf<TextView>()
 
-        // If this is a TextView with matching text, add it
         if (view is TextView && view.text.toString().trim().equals(text, ignoreCase = true)) {
             result.add(view)
         }
 
-        // If this is a ViewGroup, recursively check all children
         if (view is ViewGroup) {
             for (i in 0 until view.childCount) {
                 result.addAll(findViewsWithText(view.getChildAt(i), text))
             }
         }
-
         return result
     }
 
-    // Helper method to find a parent view with specific rotation
     private fun findParentWithRotation(view: View, rotation: Float): View? {
         var current: View? = view
 
-        // Go up the view hierarchy
         while (current != null) {
-            // Check if this view has the desired rotation
+
             if (current.rotation == rotation) {
                 return current
             }
-
-            // Move up to the parent
             val parent = current.parent
             current = if (parent is View) parent else null
         }
 
         return null
     }
+
 }
