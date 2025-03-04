@@ -30,6 +30,10 @@
         <activity
             android:name=".ui.theme.SettingsActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".ui.theme.EqualizerActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

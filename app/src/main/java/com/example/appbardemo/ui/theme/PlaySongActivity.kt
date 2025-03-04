@@ -1,5 +1,6 @@
 package com.example.appbardemo.ui.theme
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -85,6 +86,11 @@ class PlaySongActivity : AppCompatActivity() {
             playPreviousSong()
         }
 
+        // Equalizer button click listener
+        findViewById<ImageView>(R.id.equalizerButton).setOnClickListener {
+            openEqualizer()
+        }
+
         // Next button click listener
         findViewById<ImageView>(R.id.nextButton).setOnClickListener {
             playNextSong()
@@ -142,6 +148,24 @@ class PlaySongActivity : AppCompatActivity() {
 
         // Format total duration and update text
         totalTimeText.text = formatTime(totalDuration)
+    }
+
+    private fun openEqualizer() {
+        try {
+            // In a real app, you would pass the actual audio session ID from your MediaPlayer
+            val intent = Intent(this, EqualizerActivity::class.java).apply {
+                putExtra(EqualizerActivity.EXTRA_AUDIO_SESSION_ID, 0) // Dummy session ID for now
+            }
+            startActivity(intent)
+        } catch (e: Exception) {
+            // Show an error message if there's any issue launching the equalizer
+            android.widget.Toast.makeText(
+                this,
+                "Error opening equalizer: ${e.message}",
+                android.widget.Toast.LENGTH_SHORT
+            ).show()
+            e.printStackTrace()
+        }
     }
 
     private fun setupSeekBarUpdater() {

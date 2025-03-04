@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Base color -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/black" />
+        </shape>
+    </item>
+
+    <!-- First wave -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="90"
+                android:centerColor="#80FF5722"
+                android:endColor="#00FF5722"
+                android:startColor="#00FF5722"
+                android:type="linear" />
+        </shape>
+    </item>
+
+    <!-- Second wave -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="90"
+                android:centerColor="#809C27B0"
+                android:endColor="#009C27B0"
+                android:startColor="#009C27B0"
+                android:type="linear" />
+        </shape>
+    </item>
+
+    <!-- Third wave -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="90"
+                android:centerColor="#80CBFB0B"
+                android:endColor="#00CBFB0B"
+                android:startColor="#00CBFB0B"
+                android:type="linear" />
+        </shape>
+    </item>
+</layer-list>
