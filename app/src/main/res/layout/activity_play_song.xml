@@ -7,7 +7,6 @@
     android:background="@color/black"
     tools:context=".ui.theme.PlaySongActivity">
 
-    <!-- Top Bar -->
     <ImageView
         android:id="@+id/backButton"
         android:layout_width="wrap_content"
@@ -52,7 +51,6 @@
         app:layout_constraintTop_toTopOf="@+id/backButton"
         app:tint="@color/white" />
 
-    <!-- Album Art with Glow Effect -->
     <FrameLayout
         android:id="@+id/albumArtContainer"
         android:layout_width="0dp"
@@ -64,25 +62,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sourceText">
 
-        <!-- Background Glow -->
         <ImageView
             android:id="@+id/glowBackground"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:alpha="1"
             android:src="@drawable/album_glow" />
 
-        <!-- Album Art Image -->
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/albumArt"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
+            android:layout_width="230dp"
+            android:layout_height="230dp"
+            android:layout_gravity="center"
+            android:padding="5dp"
             android:scaleType="centerCrop"
             app:shapeAppearanceOverlay="@style/CircleImageView"
             tools:src="@drawable/album" />
     </FrameLayout>
 
-    <!-- Song Info -->
     <TextView
         android:id="@+id/songTitle"
         android:layout_width="0dp"
@@ -112,13 +110,12 @@
         app:layout_constraintTop_toBottomOf="@+id/songTitle"
         tools:text="Jason Miller" />
 
-    <!-- Progress Bar -->
     <SeekBar
         android:id="@+id/songSeekBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="30dp"
         android:progressTint="#CBFB0B"
         android:thumbTint="#CBFB0B"
         android:progressBackgroundTint="#80FFFFFF"
@@ -149,12 +146,11 @@
         app:layout_constraintTop_toTopOf="@+id/currentTimeText"
         tools:text="6:00" />
 
-    <!-- Player Controls -->
     <LinearLayout
         android:id="@+id/controlsContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="35dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -182,6 +178,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginHorizontal="16dp"
+            android:layout_marginVertical="10dp"
             android:rotation="45"
             android:background="@drawable/fab_background">
 
@@ -212,12 +209,11 @@
             app:tint="@color/white" />
     </LinearLayout>
 
-    <!-- Bottom Controls -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="35dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
