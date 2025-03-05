@@ -65,6 +65,13 @@ class MainActivity : AppCompatActivity() {
             bottomSheetDialog.dismiss()
         }
 
+        val privateButtonContainer = findButtonByText(bottomSheetView, "Private")
+        privateButtonContainer?.setOnClickListener {
+            val intent = Intent(this, PrivateActivity::class.java)
+            startActivity(intent)
+            bottomSheetDialog.dismiss()
+        }
+
         bottomSheetDialog.setContentView(bottomSheetView)
 
         bottomSheetView.post{
