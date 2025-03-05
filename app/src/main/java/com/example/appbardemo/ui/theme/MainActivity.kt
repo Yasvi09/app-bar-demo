@@ -72,6 +72,13 @@ class MainActivity : AppCompatActivity() {
             bottomSheetDialog.dismiss()
         }
 
+        val adsButtonContainer = findButtonByText(bottomSheetView, "Remove Ads")
+        adsButtonContainer?.setOnClickListener {
+            val intent = Intent(this, RemoveAdsActivity::class.java)
+            startActivity(intent)
+            bottomSheetDialog.dismiss()
+        }
+
         bottomSheetDialog.setContentView(bottomSheetView)
 
         bottomSheetView.post{
