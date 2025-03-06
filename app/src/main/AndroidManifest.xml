@@ -45,6 +45,9 @@
         <activity
             android:name=".ui.theme.EqualizerActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.theme.PlaylistActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

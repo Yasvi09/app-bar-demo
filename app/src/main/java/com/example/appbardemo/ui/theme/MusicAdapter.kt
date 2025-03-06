@@ -76,7 +76,13 @@ class MusicAdapter(
                             // Open artist details
                         }
                         "playlist" -> {
-                            // Open playlist
+                            val intent = Intent(holder.itemView.context, PlaylistActivity::class.java).apply {
+                                putExtra(PlaylistActivity.EXTRA_PLAYLIST_TITLE, item.title)
+                                putExtra(PlaylistActivity.EXTRA_SONGS_COUNT, 8) // Mock count
+                                putExtra(PlaylistActivity.EXTRA_PLAYLIST_DURATION, "1:02 Hours") // Mock duration
+                            }
+                            holder.itemView.context.startActivity(intent)
+                        // Open playlist
                         }
                     }
                 }
