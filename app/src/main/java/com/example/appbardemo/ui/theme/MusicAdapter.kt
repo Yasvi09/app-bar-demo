@@ -7,11 +7,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.appbardemo.R
 
 class MusicAdapter(
-    private val items: List<MusicItem>,
-    private val type: String
+    private var songs: List<SongModel>,
+    private val type: String,
+    private val onFavoriteClicked: ((SongModel, Boolean) -> Unit)? = null
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -55,13 +58,22 @@ class MusicAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val item = items[position]
+        val song = songs[position]
 
         when (holder) {
             is GridViewHolder -> {
-                holder.title.text = item.title
-                holder.subtitle.text = item.subtitle
-                holder.image.setImageResource(item.iconResId)
+                holder.title.text = song.name
+                holder.subtitle.text = song.artist
+
+                // Load image using Glide
+                if (song.image.isNotEmpty()) {
+                    Glide.with(holder.image.context)
+                        .load(song.image)
+                        .apply(RequestOptions().placeholder(R.drawable.album))
+                        .into(holder.image)
+                } else {
+                    holder.image.setImageResource(R.drawable.album)
+                }
 
                 holder.optionsButton.setOnClickListener {
                     // Handle options menu click
@@ -76,41 +88,53 @@ class MusicAdapter(
                             // Open artist details
                         }
                         "playlist" -> {
-                            val intent = Intent(holder.itemView.context, PlaylistActivity::class.java).apply {
-                                putExtra(PlaylistActivity.EXTRA_PLAYLIST_TITLE, item.title)
-                                putExtra(PlaylistActivity.EXTRA_SONGS_COUNT, 8) // Mock count
-                                putExtra(PlaylistActivity.EXTRA_PLAYLIST_DURATION, "1:02 Hours") // Mock duration
-                            }
-                            holder.itemView.context.startActivity(intent)
-                        // Open playlist
+                            // Consider updating PlaylistActivity to receive SongModel list
                         }
                     }
                 }
             }
 
             is SongViewHolder -> {
-                holder.title.text = item.title
-                holder.subtitle.text = item.subtitle
-                holder.icon.setImageResource(item.iconResId)
+                holder.title.text = song.name
+                holder.subtitle.text = song.artist
+
+                // Load image using Glide
+                if (song.image.isNotEmpty()) {
+                    Glide.with(holder.icon.context)
+                        .load(song.image)
+                        .apply(RequestOptions().placeholder(R.drawable.album).centerCrop())
+                        .into(holder.icon)
+                } else {
+                    holder.icon.setImageResource(R.drawable.album)
+                }
 
                 if (type == "songs") {
                     holder.favoriteButton.visibility = View.VISIBLE
+
+                    // Set the correct favorite icon
+                    if (song.isFavorite) {
+                        holder.favoriteButton.setImageResource(R.drawable.ic_favorite_filled)
+                    } else {
+                        holder.favoriteButton.setImageResource(R.drawable.ic_favorite_border)
+                    }
+
                 } else {
                     holder.favoriteButton.visibility = View.GONE
                 }
 
                 holder.itemView.setOnClickListener {
                     if (type == "songs") {
-                        // Launch Play Song Activity
+                        // Launch Play Song Activity with the song data
                         val intent = Intent(holder.itemView.context, PlaySongActivity::class.java).apply {
-                            putExtra(PlaySongActivity.EXTRA_SONG_TITLE, item.title)
-                            putExtra(PlaySongActivity.EXTRA_ARTIST_NAME, item.subtitle)
-                            putExtra(PlaySongActivity.EXTRA_ALBUM_NAME, "Your Music")
+                            putExtra(PlaySongActivity.EXTRA_SONG_TITLE, song.name)
+                            putExtra(PlaySongActivity.EXTRA_ARTIST_NAME, song.artist)
+                            putExtra(PlaySongActivity.EXTRA_ALBUM_NAME, song.album)
                             putExtra(PlaySongActivity.EXTRA_TRACK_NUMBER, position + 1)
-                            putExtra(PlaySongActivity.EXTRA_TOTAL_TRACKS, items.size)
-                            putExtra(PlaySongActivity.EXTRA_DURATION, 180 + position * 30) // Random duration based on position
-                            putExtra(PlaySongActivity.EXTRA_IMAGE_RES_ID, item.iconResId)
-                            putExtra(PlaySongActivity.EXTRA_SONG_ID, position)
+                            putExtra(PlaySongActivity.EXTRA_TOTAL_TRACKS, songs.size)
+                            putExtra(PlaySongActivity.EXTRA_DURATION, song.duration)
+                            putExtra(PlaySongActivity.EXTRA_SONG_ID, song.id)
+                            putExtra(PlaySongActivity.EXTRA_AUDIO_URL, song.url)
+                            putExtra(PlaySongActivity.EXTRA_IMAGE_URL, song.image)
                         }
                         holder.itemView.context.startActivity(intent)
                     }
@@ -121,24 +145,25 @@ class MusicAdapter(
                 }
 
                 holder.favoriteButton.setOnClickListener {
-                    toggleFavorite(holder.favoriteButton)
+                    // Toggle favorite status
+                    val newStatus = !song.isFavorite
+                    onFavoriteClicked?.invoke(song, newStatus)
+
+                    // Update the icon
+                    if (newStatus) {
+                        holder.favoriteButton.setImageResource(R.drawable.ic_favorite_filled)
+                    } else {
+                        holder.favoriteButton.setImageResource(R.drawable.ic_favorite_border)
+                    }
                 }
             }
         }
     }
 
-    private fun toggleFavorite(favoriteButton: ImageView) {
-        val currentDrawable = favoriteButton.drawable.constantState
-        val outlineDrawable = favoriteButton.context.getDrawable(R.drawable.ic_favorite_border)?.constantState
+    override fun getItemCount(): Int = songs.size
 
-        if (currentDrawable == outlineDrawable) {
-            favoriteButton.setImageResource(R.drawable.ic_favorite_filled)
-        } else {
-            favoriteButton.setImageResource(R.drawable.ic_favorite_border)
-        }
+    fun updateData(newSongs: List<SongModel>) {
+        this.songs = newSongs
+        notifyDataSetChanged()
     }
-
-    override fun getItemCount(): Int = items.size
 }
-
-

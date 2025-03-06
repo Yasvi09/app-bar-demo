@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "523986589441",
+    "project_id": "app-bar-demo",
+    "storage_bucket": "app-bar-demo.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:523986589441:android:8f7c3741bc3b62882fad00",
+        "android_client_info": {
+          "package_name": "com.example.appbardemo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4vokcC3nXMaLN5V2iSTx77XtE07PuA9g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

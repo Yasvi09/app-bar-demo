@@ -48,7 +48,7 @@ class PlaylistActivity : AppCompatActivity() {
                     putExtra(PlaySongActivity.EXTRA_TRACK_NUMBER, position + 1)
                     putExtra(PlaySongActivity.EXTRA_TOTAL_TRACKS, songsCount)
                     putExtra(PlaySongActivity.EXTRA_DURATION, song.durationInSeconds)
-                    putExtra(PlaySongActivity.EXTRA_IMAGE_RES_ID, R.drawable.album)
+                    putExtra(PlaySongActivity.EXTRA_IMAGE_URL , R.drawable.album)
                 }
                 startActivity(intent)
             }
@@ -69,7 +69,7 @@ class PlaylistActivity : AppCompatActivity() {
                 putExtra(PlaySongActivity.EXTRA_TRACK_NUMBER, 1)
                 putExtra(PlaySongActivity.EXTRA_TOTAL_TRACKS, songsCount)
                 putExtra(PlaySongActivity.EXTRA_DURATION, firstSong.durationInSeconds)
-                putExtra(PlaySongActivity.EXTRA_IMAGE_RES_ID, R.drawable.album)
+                putExtra(PlaySongActivity.EXTRA_IMAGE_URL , R.drawable.album)
             }
             startActivity(intent)
         }

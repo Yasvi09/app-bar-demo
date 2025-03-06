@@ -2,6 +2,7 @@ package com.example.appbardemo.ui.theme
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.appbardemo.R
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.firebase.FirebaseApp
 
 class MainActivity : AppCompatActivity() {
     private lateinit var fabLayout: FrameLayout
@@ -19,7 +21,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        try {
+            FirebaseApp.initializeApp(this)
+            println("Firebase initialized successfully")
+        } catch (e: Exception) {
+            Log.e("MusicPlayerApp", "Failed to initialize Firebase: ${e.message}", e)
+        }
         init()
     }
 

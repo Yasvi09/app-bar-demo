@@ -1,6 +1,6 @@
 package com.example.appbardemo.ui.theme
 
-import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -8,12 +8,20 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.appbardemo.R
+import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.material.imageview.ShapeableImageView
 import java.util.concurrent.TimeUnit
 
-class PlaySongActivity : AppCompatActivity() {
+class PlaySongActivity : AppCompatActivity(), Player.Listener {
 
     private lateinit var albumArt: ShapeableImageView
     private lateinit var songTitle: TextView
@@ -26,21 +34,30 @@ class PlaySongActivity : AppCompatActivity() {
     private lateinit var playPauseButton: ImageView
     private lateinit var favoriteButton: ImageView
 
+    private var player: ExoPlayer? = null
     private var isPlaying = false
     private var isFavorite = false
     private var currentPosition = 0
-    private var totalDuration = 360 // 6 minutes in seconds (default)
+    private var totalDuration = 0
+    private var songId = ""
+    private var audioUrl = ""
+    private var imageUrl = ""
 
     private val handler = Handler(Looper.getMainLooper())
     private lateinit var updateSeekBarRunnable: Runnable
+
+    private lateinit var viewModel: MusicViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_play_song)
 
+        viewModel = ViewModelProvider(this)[MusicViewModel::class.java]
+
         initializeViews()
         setupClickListeners()
         getSongDetails()
+        setupPlayer()
         setupSeekBarUpdater()
     }
 
@@ -57,12 +74,27 @@ class PlaySongActivity : AppCompatActivity() {
         favoriteButton = findViewById(R.id.favoriteButton)
 
         // Set up seekbar
-        songSeekBar.max = totalDuration
-        songSeekBar.progress = currentPosition
-        updateTimeTexts()
+        songSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if (fromUser) {
+                    currentPosition = progress
+                    updateTimeTexts()
+                    player?.seekTo(progress * 1000L)
+                }
+            }
 
-        // Set initial play/pause button state
-        updatePlayPauseButton()
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                // Pause updates while user is dragging
+                handler.removeCallbacks(updateSeekBarRunnable)
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                // Resume updates when user stops dragging
+                if (isPlaying) {
+                    handler.postDelayed(updateSeekBarRunnable, 1000)
+                }
+            }
+        })
     }
 
     private fun setupClickListeners() {
@@ -83,7 +115,7 @@ class PlaySongActivity : AppCompatActivity() {
 
         // Previous button click listener
         findViewById<ImageView>(R.id.previousButton).setOnClickListener {
-            playPreviousSong()
+            skipToPrevious()
         }
 
         // Equalizer button click listener
@@ -93,94 +125,81 @@ class PlaySongActivity : AppCompatActivity() {
 
         // Next button click listener
         findViewById<ImageView>(R.id.nextButton).setOnClickListener {
-            playNextSong()
+            skipToNext()
         }
 
         // Favorite button click listener
         favoriteButton.setOnClickListener {
             toggleFavorite()
         }
-
-        // Set up seekbar change listener
-        songSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                if (fromUser) {
-                    currentPosition = progress
-                    updateTimeTexts()
-                }
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                // Pause updates while user is dragging
-                handler.removeCallbacks(updateSeekBarRunnable)
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                // Resume updates when user stops dragging
-                if (isPlaying) {
-                    handler.postDelayed(updateSeekBarRunnable, 1000)
-                }
-            }
-        })
     }
 
     private fun getSongDetails() {
-        // Start in playing state
-        isPlaying = true
-
         // Get data from intent extras
         val title = intent.getStringExtra(EXTRA_SONG_TITLE) ?: "Unknown Title"
         val artist = intent.getStringExtra(EXTRA_ARTIST_NAME) ?: "Unknown Artist"
         val albumName = intent.getStringExtra(EXTRA_ALBUM_NAME) ?: "Unknown Album"
         val trackNumber = intent.getIntExtra(EXTRA_TRACK_NUMBER, 1)
         val totalTracks = intent.getIntExtra(EXTRA_TOTAL_TRACKS, 10)
-        val duration = intent.getIntExtra(EXTRA_DURATION, 360) // In seconds
-        val imageResId = intent.getIntExtra(EXTRA_IMAGE_RES_ID, R.drawable.album)
+        totalDuration = intent.getIntExtra(EXTRA_DURATION, 360) // In seconds
+        songId = intent.getStringExtra(EXTRA_SONG_ID) ?: ""
+        audioUrl = intent.getStringExtra(EXTRA_AUDIO_URL) ?: ""
+        imageUrl = intent.getStringExtra(EXTRA_IMAGE_URL) ?: ""
 
         // Update UI with song details
         songTitle.text = title
         artistName.text = artist
         sourceText.text = albumName
         trackPositionText.text = "$trackNumber/$totalTracks"
-        totalDuration = duration
         songSeekBar.max = totalDuration
-        albumArt.setImageResource(imageResId)
+        songSeekBar.progress = 0
+
+        // Load album art using Glide
+        if (imageUrl.isNotEmpty()) {
+            Glide.with(this)
+                .load(imageUrl)
+                .apply(RequestOptions().placeholder(R.drawable.album).centerCrop())
+                .into(albumArt)
+        } else {
+            albumArt.setImageResource(R.drawable.album)
+        }
 
         // Format total duration and update text
         totalTimeText.text = formatTime(totalDuration)
+        currentTimeText.text = formatTime(0)
     }
 
-    private fun openEqualizer() {
-        try {
-            // In a real app, you would pass the actual audio session ID from your MediaPlayer
-            val intent = Intent(this, EqualizerActivity::class.java).apply {
-                putExtra(EqualizerActivity.EXTRA_AUDIO_SESSION_ID, 0) // Dummy session ID for now
-            }
-            startActivity(intent)
-        } catch (e: Exception) {
-            // Show an error message if there's any issue launching the equalizer
-            android.widget.Toast.makeText(
-                this,
-                "Error opening equalizer: ${e.message}",
-                android.widget.Toast.LENGTH_SHORT
-            ).show()
-            e.printStackTrace()
+    private fun setupPlayer() {
+        player = SimpleExoPlayer.Builder(this).build()
+
+        // Set player listener
+        player?.addListener(this)
+
+        // Prepare the media item
+        if (audioUrl.isNotEmpty()) {
+            val mediaItem = MediaItem.fromUri(Uri.parse(audioUrl))
+            player?.setMediaItem(mediaItem)
+            player?.prepare()
+
+            // Auto-start playback
+            player?.play()
+            isPlaying = true
+            updatePlayPauseButton()
+            handler.postDelayed(updateSeekBarRunnable, 1000)
+        } else {
+            Toast.makeText(this, "Error: Audio URL is empty", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun setupSeekBarUpdater() {
         updateSeekBarRunnable = object : Runnable {
             override fun run() {
-                if (isPlaying && currentPosition < totalDuration) {
-                    currentPosition += 1
+                if (player != null && isPlaying) {
+                    // Get current position in seconds
+                    currentPosition = (player?.currentPosition ?: 0).toInt() / 1000
                     songSeekBar.progress = currentPosition
                     updateTimeTexts()
                     handler.postDelayed(this, 1000)
-                } else if (currentPosition >= totalDuration) {
-                    // Song finished, play next song
-                    playNextSong()
-                    isPlaying = true
-                    updatePlayPauseButton()
                 }
             }
         }
@@ -198,13 +217,15 @@ class PlaySongActivity : AppCompatActivity() {
     }
 
     private fun togglePlayPause() {
+        if (player == null) return
+
         isPlaying = !isPlaying
 
         if (isPlaying) {
-            // Start or resume playback
+            player?.play()
             handler.postDelayed(updateSeekBarRunnable, 1000)
         } else {
-            // Pause playback
+            player?.pause()
             handler.removeCallbacks(updateSeekBarRunnable)
         }
 
@@ -220,42 +241,103 @@ class PlaySongActivity : AppCompatActivity() {
     }
 
     private fun toggleFavorite() {
+        if (songId.isEmpty()) return
+
         isFavorite = !isFavorite
 
+        // Update UI
         if (isFavorite) {
             favoriteButton.setImageResource(R.drawable.ic_favorite_filled)
         } else {
             favoriteButton.setImageResource(R.drawable.ic_favorite_border)
         }
+
+        // Update in Firebase
+        viewModel.updateFavoriteStatus(songId, isFavorite)
     }
 
-    private fun playPreviousSong() {
+    private fun skipToPrevious() {
+        if (player == null) return
+
         // Reset to start of song if we're past 3 seconds, otherwise go to previous song
         if (currentPosition > 3) {
+            player?.seekTo(0)
             currentPosition = 0
             songSeekBar.progress = 0
             updateTimeTexts()
         } else {
             // In a real app, you would load and play the previous song here
             // For this demo, we'll just reset the current song
+            player?.seekTo(0)
             currentPosition = 0
             songSeekBar.progress = 0
             updateTimeTexts()
         }
     }
 
-    private fun playNextSong() {
+    private fun skipToNext() {
         // In a real app, you would load and play the next song here
         // For this demo, we'll just reset the current song
+        if (player == null) return
+
+        player?.seekTo(0)
         currentPosition = 0
         songSeekBar.progress = 0
         updateTimeTexts()
     }
 
+    private fun openEqualizer() {
+        try {
+            // Pass the audio session ID from ExoPlayer
+            val sessionId = player?.audioSessionId ?: 0
+            if (sessionId != 0) {
+                val intent = android.content.Intent(this, EqualizerActivity::class.java).apply {
+                    putExtra(EqualizerActivity.EXTRA_AUDIO_SESSION_ID, sessionId)
+                }
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "Audio session not available", Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: Exception) {
+            Toast.makeText(
+                this,
+                "Error opening equalizer: ${e.message}",
+                Toast.LENGTH_SHORT
+            ).show()
+            e.printStackTrace()
+        }
+    }
+
+    // ExoPlayer Listener callbacks
+    override fun onPlaybackStateChanged(state: Int) {
+        when (state) {
+            Player.STATE_READY -> {
+                // Update duration when media is ready
+                totalDuration = (player?.duration ?: 0).toInt() / 1000
+                songSeekBar.max = totalDuration
+                totalTimeText.text = formatTime(totalDuration)
+            }
+
+            Player.STATE_ENDED -> {
+                // Playback ended - go to next song or replay
+                skipToNext()
+            }
+
+            Player.STATE_BUFFERING -> {
+                // Handle buffering state if needed
+            }
+
+            Player.STATE_IDLE -> {
+                // Handle idle state if needed
+            }
+        }
+    }
+
     override fun onStart() {
         super.onStart()
-        // Automatically start playing when activity starts
+        // Resume playback
         if (isPlaying) {
+            player?.play()
             handler.postDelayed(updateSeekBarRunnable, 1000)
         }
     }
@@ -272,15 +354,19 @@ class PlaySongActivity : AppCompatActivity() {
         handler.removeCallbacks(updateSeekBarRunnable)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onStop() {
+        super.onStop()
+        player?.pause()
         handler.removeCallbacks(updateSeekBarRunnable)
     }
 
-    override fun onStop() {
-        super.onStop()
+    override fun onDestroy() {
+        super.onDestroy()
         handler.removeCallbacks(updateSeekBarRunnable)
+        player?.release()
+        player = null
     }
+
 
     companion object {
         const val EXTRA_SONG_TITLE = "song_title"
@@ -289,7 +375,8 @@ class PlaySongActivity : AppCompatActivity() {
         const val EXTRA_TRACK_NUMBER = "track_number"
         const val EXTRA_TOTAL_TRACKS = "total_tracks"
         const val EXTRA_DURATION = "duration"
-        const val EXTRA_IMAGE_RES_ID = "image_res_id"
+        const val EXTRA_IMAGE_URL = "image_url"
+        const val EXTRA_AUDIO_URL = "audio_url"
         const val EXTRA_SONG_ID = "song_id"
     }
 }
