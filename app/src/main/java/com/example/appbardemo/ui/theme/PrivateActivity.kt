@@ -61,7 +61,7 @@ class PrivateActivity : AppCompatActivity() {
             button.setOnClickListener {
                 if (enteredPassword.length < 4) {
                     enteredPassword.append(index)
-                    passwordDisplay.text = enteredPassword.toString() // Show the entered password
+                    passwordDisplay.text = enteredPassword.toString()
 
                     if (correctPassword != null && enteredPassword.toString() == correctPassword) {
                         dialog.dismiss()

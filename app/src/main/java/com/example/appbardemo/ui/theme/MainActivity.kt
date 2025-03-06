@@ -79,6 +79,13 @@ class MainActivity : AppCompatActivity() {
             bottomSheetDialog.dismiss()
         }
 
+        val mp3CutterContainer = findButtonByText(bottomSheetView, "MP3 Cutter")
+        mp3CutterContainer?.setOnClickListener {
+            val intent = Intent(this, Mp3CutterActivity::class.java)
+            startActivity(intent)
+            bottomSheetDialog.dismiss()
+        }
+
         bottomSheetDialog.setContentView(bottomSheetView)
 
         bottomSheetView.post{
