@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.OptIn
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -55,14 +56,16 @@ class PlaySongActivity : AppCompatActivity(), Player.Listener {
 
         viewModel = ViewModelProvider(this)[MusicViewModel::class.java]
 
-        initializeViews()
+        init()
+        setupSeekBarUpdater()
+        setupPlayer()
         setupClickListeners()
         getSongDetails()
-        setupPlayer()
-        setupSeekBarUpdater()
+
+
     }
 
-    private fun initializeViews() {
+    private fun init() {
         albumArt = findViewById(R.id.albumArt)
         songTitle = findViewById(R.id.songTitle)
         artistName = findViewById(R.id.artistName)
@@ -74,7 +77,6 @@ class PlaySongActivity : AppCompatActivity(), Player.Listener {
         playPauseButton = findViewById(R.id.playPauseButton)
         favoriteButton = findViewById(R.id.favoriteButton)
 
-        // Set up seekbar
         songSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
@@ -85,12 +87,10 @@ class PlaySongActivity : AppCompatActivity(), Player.Listener {
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                // Pause updates while user is dragging
                 handler.removeCallbacks(updateSeekBarRunnable)
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                // Resume updates when user stops dragging
                 if (isPlaying) {
                     handler.postDelayed(updateSeekBarRunnable, 1000)
                 }
@@ -99,7 +99,7 @@ class PlaySongActivity : AppCompatActivity(), Player.Listener {
     }
 
     private fun setupClickListeners() {
-        // Back button click listener
+
         findViewById<ImageView>(R.id.backButton).setOnClickListener {
             finish()
         }
@@ -129,7 +129,6 @@ class PlaySongActivity : AppCompatActivity(), Player.Listener {
             skipToNext()
         }
 
-        // Favorite button click listener
         favoriteButton.setOnClickListener {
             toggleFavorite()
         }
@@ -170,13 +169,12 @@ class PlaySongActivity : AppCompatActivity(), Player.Listener {
         currentTimeText.text = formatTime(0)
     }
 
+    @OptIn(UnstableApi::class)
     private fun setupPlayer() {
         player = SimpleExoPlayer.Builder(this).build()
 
-        // Set player listener
         player?.addListener(this)
 
-        // Prepare the media item
         if (audioUrl.isNotEmpty()) {
             val mediaItem = MediaItem.fromUri(Uri.parse(audioUrl))
             player?.setMediaItem(mediaItem)
@@ -246,14 +244,12 @@ class PlaySongActivity : AppCompatActivity(), Player.Listener {
 
         isFavorite = !isFavorite
 
-        // Update UI
         if (isFavorite) {
             favoriteButton.setImageResource(R.drawable.ic_favorite_filled)
         } else {
             favoriteButton.setImageResource(R.drawable.ic_favorite_border)
         }
 
-        // Update in Firebase
         viewModel.updateFavoriteStatus(songId, isFavorite)
     }
 
@@ -287,6 +283,7 @@ class PlaySongActivity : AppCompatActivity(), Player.Listener {
         updateTimeTexts()
     }
 
+    @OptIn(UnstableApi::class)
     private fun openEqualizer() {
         try {
             // Pass the audio session ID from ExoPlayer
