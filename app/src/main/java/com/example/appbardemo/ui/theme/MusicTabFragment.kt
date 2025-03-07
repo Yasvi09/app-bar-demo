@@ -98,6 +98,9 @@ class MusicTabFragment : Fragment() {
             // Use folder adapter with mock data
             val folderItems = createFolderItems()
             recyclerView.adapter = FolderAdapter(folderItems)
+        } else if (tabType == "playlist") {
+            // Use playlists adapter with empty data initially
+            recyclerView.adapter = PlaylistsAdapter(emptyList())
         } else {
             // For other tabs, use the music adapter with empty data initially
             recyclerView.adapter = MusicAdapter(emptyList(), tabType ?: "") { song, isFavorite ->
@@ -120,34 +123,51 @@ class MusicTabFragment : Fragment() {
             }
         }
 
-        // Observe songs data
-        viewModel.songs.observe(viewLifecycleOwner) { songs ->
-            if (tabType == "folder") {
+        when (tabType) {
+            "playlist" -> {
+                // For playlist tab, observe playlists data
+                viewModel.playlists.observe(viewLifecycleOwner) { playlists ->
+                    if (playlists.isEmpty()) {
+                        recyclerView.visibility = View.GONE
+                        emptyText.visibility = View.VISIBLE
+                        emptyText.text = "No playlists found"
+                    } else {
+                        recyclerView.visibility = View.VISIBLE
+                        emptyText.visibility = View.GONE
+
+                        // Update the adapter with new playlists data
+                        (recyclerView.adapter as? PlaylistsAdapter)?.updateData(playlists)
+                    }
+                }
+            }
+            "folder" -> {
                 // Folders are handled separately
-                return@observe
             }
+            else -> {
+                // Observe songs data for other tabs
+                viewModel.songs.observe(viewLifecycleOwner) { songs ->
+                    val filteredSongs = when (tabType) {
+                        "songs" -> songs
+                        "album" -> songs.distinctBy { it.album }.map {
+                            it.copy(subtitle = "Album • ${songs.count { s -> s.album == it.album }} songs")
+                        }
+                        "artist" -> songs.distinctBy { it.artist }.map {
+                            it.copy(subtitle = "${songs.count { s -> s.artist == it.artist }} songs")
+                        }
+                        else -> emptyList()
+                    }
 
-            val filteredSongs = when (tabType) {
-                "songs" -> songs
-                "album" -> songs.distinctBy { it.album }.map {
-                    it.copy(subtitle = "Album • ${songs.count { s -> s.album == it.album }} songs")
+                    if (filteredSongs.isEmpty()) {
+                        recyclerView.visibility = View.GONE
+                        emptyText.visibility = View.VISIBLE
+                    } else {
+                        recyclerView.visibility = View.VISIBLE
+                        emptyText.visibility = View.GONE
+
+                        // Update the adapter with new data
+                        (recyclerView.adapter as? MusicAdapter)?.updateData(filteredSongs)
+                    }
                 }
-                "artist" -> songs.distinctBy { it.artist }.map {
-                    it.copy(subtitle = "${songs.count { s -> s.artist == it.artist }} songs")
-                }
-                "playlist" -> emptyList() // Handle playlists separately
-                else -> emptyList()
-            }
-
-            if (filteredSongs.isEmpty()) {
-                recyclerView.visibility = View.GONE
-                emptyText.visibility = View.VISIBLE
-            } else {
-                recyclerView.visibility = View.VISIBLE
-                emptyText.visibility = View.GONE
-
-                // Update the adapter with new data
-                (recyclerView.adapter as? MusicAdapter)?.updateData(filteredSongs)
             }
         }
     }
@@ -159,5 +179,13 @@ class MusicTabFragment : Fragment() {
             MusicItem("Android", "5 items", "folder", R.drawable.ic_folder),
             MusicItem("Music", "32 items", "folder", R.drawable.ic_folder)
         )
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Refresh data when returning to the fragment
+        if (tabType == "playlist") {
+            viewModel?.loadPlaylists()
+        }
     }
 }

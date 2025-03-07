@@ -44,6 +44,9 @@ class PlaySongActivity : AppCompatActivity(), Player.Listener {
     private var songId = ""
     private var audioUrl = ""
     private var imageUrl = ""
+    private var playlistId: String? = null
+    private var currentSongIndex: Int = 0
+    private var playlistSongs: List<SongModel> = emptyList()
 
     private val handler = Handler(Looper.getMainLooper())
     private lateinit var updateSeekBarRunnable: Runnable
@@ -61,6 +64,14 @@ class PlaySongActivity : AppCompatActivity(), Player.Listener {
         setupClickListeners()
         getSongDetails()  // First get the song details including audioUrl
         setupPlayer()     // Then set up the player with the populated audioUrl
+
+        // Get the playlist ID if coming from a playlist
+        playlistId = intent.getStringExtra(EXTRA_PLAYLIST_ID)
+
+        // If we have a playlist ID, load the playlist songs
+        if (!playlistId.isNullOrEmpty()) {
+            loadPlaylistSongs()
+        }
 
 
     }
@@ -257,14 +268,12 @@ class PlaySongActivity : AppCompatActivity(), Player.Listener {
         if (player == null) return
 
         // Reset to start of song if we're past 3 seconds, otherwise go to previous song
-        if (currentPosition > 3) {
-            player?.seekTo(0)
-            currentPosition = 0
-            songSeekBar.progress = 0
-            updateTimeTexts()
+        if (playlistSongs.isNotEmpty() && currentSongIndex > 0 && currentPosition <= 3) {
+            // Go to previous song in playlist
+            currentSongIndex--
+            playSongFromPlaylist(currentSongIndex)
         } else {
-            // In a real app, you would load and play the previous song here
-            // For this demo, we'll just reset the current song
+            // Just reset the current song
             player?.seekTo(0)
             currentPosition = 0
             songSeekBar.progress = 0
@@ -273,14 +282,60 @@ class PlaySongActivity : AppCompatActivity(), Player.Listener {
     }
 
     private fun skipToNext() {
-        // In a real app, you would load and play the next song here
-        // For this demo, we'll just reset the current song
-        if (player == null) return
+        if (playlistSongs.isNotEmpty() && currentSongIndex < playlistSongs.size - 1) {
+            // Go to next song in playlist
+            currentSongIndex++
+            playSongFromPlaylist(currentSongIndex)
+        } else {
+            // Just reset the current song or loop back to the first song
+            if (playlistSongs.isNotEmpty()) {
+                currentSongIndex = 0
+                playSongFromPlaylist(currentSongIndex)
+            } else {
+                player?.seekTo(0)
+                currentPosition = 0
+                songSeekBar.progress = 0
+                updateTimeTexts()
+            }
+        }
+    }
 
-        player?.seekTo(0)
-        currentPosition = 0
+    private fun playSongFromPlaylist(index: Int) {
+        if (index < 0 || index >= playlistSongs.size) return
+
+        val song = playlistSongs[index]
+
+        // Update the UI
+        songTitle.text = song.name
+        artistName.text = song.artist
+        totalDuration = song.duration
+        songSeekBar.max = totalDuration
         songSeekBar.progress = 0
-        updateTimeTexts()
+
+        // Update audio
+        audioUrl = song.url
+        player?.stop()
+        player?.clearMediaItems()
+
+        if (audioUrl.isNotEmpty()) {
+            val mediaItem = MediaItem.fromUri(Uri.parse(audioUrl))
+            player?.setMediaItem(mediaItem)
+            player?.prepare()
+            player?.play()
+            isPlaying = true
+            updatePlayPauseButton()
+        }
+
+        // Update image
+        if (song.image.isNotEmpty()) {
+            Glide.with(this)
+                .load(song.image)
+                .apply(RequestOptions().placeholder(R.drawable.album).centerCrop())
+                .into(albumArt)
+        }
+
+        // Update track position
+        updateTrackPositionText()
     }
 
     @OptIn(UnstableApi::class)
@@ -365,7 +420,35 @@ class PlaySongActivity : AppCompatActivity(), Player.Listener {
         player = null
     }
 
+    private fun loadPlaylistSongs() {
+        viewModel.getPlaylist(playlistId!!) { playlist ->
+            if (playlist != null) {
+                viewModel.loadPlaylistSongs(playlist)
 
+                // Observe the playlist songs
+                viewModel.playlistSongs.observe(this) { songs ->
+                    if (songs.isNotEmpty()) {
+                        playlistSongs = songs
+
+                        // Find the current song index in the playlist
+                        val songId = intent.getStringExtra(EXTRA_SONG_ID) ?: ""
+                        currentSongIndex = playlistSongs.indexOfFirst { it.id == songId }
+
+                        // Update the track position text
+                        updateTrackPositionText()
+                    }
+                }
+            }
+        }
+    }
+
+    // Add this method to update the track position display
+    private fun updateTrackPositionText() {
+        if (playlistSongs.isNotEmpty() && currentSongIndex != -1) {
+            val trackPositionText = findViewById<TextView>(R.id.trackPositionText)
+            trackPositionText.text = "${currentSongIndex + 1}/${playlistSongs.size}"
+        }
+    }
     companion object {
         const val EXTRA_SONG_TITLE = "song_title"
         const val EXTRA_ARTIST_NAME = "artist_name"
@@ -376,5 +459,6 @@ class PlaySongActivity : AppCompatActivity(), Player.Listener {
         const val EXTRA_IMAGE_URL = "image_url"
         const val EXTRA_AUDIO_URL = "audio_url"
         const val EXTRA_SONG_ID = "song_id"
+        const val EXTRA_PLAYLIST_ID = "playlist_id"
     }
 }

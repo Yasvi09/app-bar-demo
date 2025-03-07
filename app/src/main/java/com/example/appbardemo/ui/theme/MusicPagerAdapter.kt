@@ -9,13 +9,12 @@ class MusicPagerAdapter(activity: FragmentActivity, private val tabCount: Int) :
     override fun getItemCount(): Int = tabCount
 
     override fun createFragment(position: Int): Fragment {
-
         return when (position) {
             0 -> MusicTabFragment.newInstance("album")
             1 -> MusicTabFragment.newInstance("songs")
             2 -> MusicTabFragment.newInstance("artist")
             3 -> MusicTabFragment.newInstance("folder")
-            4 -> MusicTabFragment.newInstance("playlist")
+            4 -> PlaylistTabFragment.newInstance() // Use dedicated playlist fragment
             else -> MusicTabFragment.newInstance("songs")
         }
     }

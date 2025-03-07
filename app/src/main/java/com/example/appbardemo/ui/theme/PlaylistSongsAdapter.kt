@@ -10,12 +10,15 @@ import com.example.appbardemo.R
 import java.util.concurrent.TimeUnit
 
 class PlaylistSongsAdapter(
-    private val songs: List<Song>,
+    private var songs: List<SongModel>,
     private val listener: OnSongClickListener
 ) : RecyclerView.Adapter<PlaylistSongsAdapter.SongViewHolder>() {
 
+    // Track the currently playing song position (if any)
+    private var currentlyPlayingPosition: Int = -1
+
     interface OnSongClickListener {
-        fun onSongClick(song: Song, position: Int)
+        fun onSongClick(song: SongModel, position: Int)
     }
 
     inner class SongViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -30,6 +33,10 @@ class PlaylistSongsAdapter(
             itemView.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
+                    // Update currently playing position
+                    setCurrentlyPlaying(position)
+
+                    // Trigger the click listener
                     listener.onSongClick(songs[position], position)
                 }
             }
@@ -46,9 +53,9 @@ class PlaylistSongsAdapter(
         val song = songs[position]
 
         holder.songNumber.text = (position + 1).toString()
-        holder.songTitle.text = song.title
+        holder.songTitle.text = song.name
         holder.songArtist.text = song.artist
-        holder.songDuration.text = formatDuration(song.durationInSeconds)
+        holder.songDuration.text = formatDuration(song.duration)
 
         // Show favorite icon if the song is favorite
         if (song.isFavorite) {
@@ -58,9 +65,8 @@ class PlaylistSongsAdapter(
             holder.favoriteIcon.visibility = View.GONE
         }
 
-        // If this is the currently playing song, show the indicator
-        // This is hardcoded for the third song in this example
-        if (position == 2) {
+        // Show playing indicator if this is the currently playing song
+        if (position == currentlyPlayingPosition) {
             holder.nowPlayingIndicator.visibility = View.VISIBLE
             holder.songNumber.visibility = View.INVISIBLE
         } else {
@@ -75,5 +81,34 @@ class PlaylistSongsAdapter(
         val minutes = TimeUnit.SECONDS.toMinutes(seconds.toLong())
         val remainingSeconds = seconds - TimeUnit.MINUTES.toSeconds(minutes)
         return String.format("%d:%02d", minutes, remainingSeconds)
+    }
+
+    fun updateSongs(newSongs: List<SongModel>) {
+        this.songs = newSongs
+        notifyDataSetChanged()
+    }
+
+    fun getSongs(): List<SongModel> {
+        return songs
+    }
+
+    fun setCurrentlyPlaying(position: Int) {
+        val oldPosition = currentlyPlayingPosition
+        currentlyPlayingPosition = position
+
+        // Update the indicators for the previous and new positions
+        if (oldPosition != -1) {
+            notifyItemChanged(oldPosition)
+        }
+        if (position != -1) {
+            notifyItemChanged(position)
+        }
+    }
+
+    fun setCurrentlyPlayingSong(songId: String) {
+        val position = songs.indexOfFirst { it.id == songId }
+        if (position != -1) {
+            setCurrentlyPlaying(position)
+        }
     }
 }

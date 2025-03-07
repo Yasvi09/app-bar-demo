@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -16,6 +17,9 @@ class MusicAdapter(
     private val type: String,
     private val onFavoriteClicked: ((SongModel, Boolean) -> Unit)? = null
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private var playlistHelper: PlaylistDialogHelper? = null
+    private var viewModel: MusicViewModel? = null
 
     companion object {
         private const val VIEW_TYPE_SONG = 0
@@ -76,7 +80,7 @@ class MusicAdapter(
                 }
 
                 holder.optionsButton.setOnClickListener {
-                    // Handle options menu click
+                    showOptionsMenu(it, song)
                 }
 
                 holder.itemView.setOnClickListener {
@@ -141,7 +145,7 @@ class MusicAdapter(
                 }
 
                 holder.optionsButton.setOnClickListener {
-                    // Show options menu
+                    showOptionsMenu(it, song)
                 }
 
                 holder.favoriteButton.setOnClickListener {
@@ -160,10 +164,63 @@ class MusicAdapter(
         }
     }
 
+    private fun showOptionsMenu(view: View, song: SongModel) {
+        val popupMenu = PopupMenu(view.context, view)
+        val inflater = popupMenu.menuInflater
+        inflater.inflate(R.menu.song_options_menu, popupMenu.menu)
+
+        popupMenu.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.action_play -> {
+                    // Play the song
+                    val intent = Intent(view.context, PlaySongActivity::class.java).apply {
+                        putExtra(PlaySongActivity.EXTRA_SONG_TITLE, song.name)
+                        putExtra(PlaySongActivity.EXTRA_ARTIST_NAME, song.artist)
+                        putExtra(PlaySongActivity.EXTRA_ALBUM_NAME, song.album)
+                        putExtra(PlaySongActivity.EXTRA_DURATION, song.duration)
+                        putExtra(PlaySongActivity.EXTRA_SONG_ID, song.id)
+                        putExtra(PlaySongActivity.EXTRA_AUDIO_URL, song.url)
+                        putExtra(PlaySongActivity.EXTRA_IMAGE_URL, song.image)
+                    }
+                    view.context.startActivity(intent)
+                    true
+                }
+                R.id.action_add_to_playlist -> {
+                    // Show add to playlist dialog
+                    if (playlistHelper == null) {
+                        playlistHelper = PlaylistDialogHelper(view.context)
+                    }
+
+                    if (viewModel != null) {
+                        playlistHelper?.showAddToPlaylistDialog(viewModel!!, song.id)
+                    }
+                    true
+                }
+                R.id.action_share -> {
+                    // Share song
+                    val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                        type = "text/plain"
+                        putExtra(Intent.EXTRA_SUBJECT, "Check out this song!")
+                        putExtra(Intent.EXTRA_TEXT, "Listen to ${song.name} by ${song.artist}")
+                    }
+                    view.context.startActivity(Intent.createChooser(shareIntent, "Share via"))
+                    true
+                }
+                else -> false
+            }
+        }
+
+        popupMenu.show()
+    }
+
     override fun getItemCount(): Int = songs.size
 
     fun updateData(newSongs: List<SongModel>) {
         this.songs = newSongs
         notifyDataSetChanged()
+    }
+
+    fun setViewModel(viewModel: MusicViewModel) {
+        this.viewModel = viewModel
     }
 }
