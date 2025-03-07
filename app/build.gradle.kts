@@ -68,6 +68,7 @@ dependencies {
     implementation ("com.google.android.material:material:1.10.0")
     implementation ("com.github.bumptech.glide:glide:4.16.0")
     implementation ("org.jetbrains.kotlin:kotlin-stdlib:1.8.0")
+    implementation ("com.google.firebase:firebase-auth:23.3.0")
     implementation(libs.firebase.auth)
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
