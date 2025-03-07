@@ -58,9 +58,9 @@ class PlaySongActivity : AppCompatActivity(), Player.Listener {
 
         init()
         setupSeekBarUpdater()
-        setupPlayer()
         setupClickListeners()
-        getSongDetails()
+        getSongDetails()  // First get the song details including audioUrl
+        setupPlayer()     // Then set up the player with the populated audioUrl
 
 
     }
