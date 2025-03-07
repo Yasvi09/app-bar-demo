@@ -9,15 +9,17 @@ import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.OptIn
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.SimpleExoPlayer
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.appbardemo.R
-import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.material.imageview.ShapeableImageView
 import java.util.concurrent.TimeUnit
 
@@ -169,6 +171,7 @@ class PlaySongActivity : AppCompatActivity(), Player.Listener {
         currentTimeText.text = formatTime(0)
     }
 
+    @OptIn(UnstableApi::class)
     private fun setupPlayer() {
         player = SimpleExoPlayer.Builder(this).build()
 
@@ -286,6 +289,7 @@ class PlaySongActivity : AppCompatActivity(), Player.Listener {
         updateTimeTexts()
     }
 
+    @OptIn(UnstableApi::class)
     private fun openEqualizer() {
         try {
             // Pass the audio session ID from ExoPlayer
@@ -335,7 +339,7 @@ class PlaySongActivity : AppCompatActivity(), Player.Listener {
 
     override fun onStart() {
         super.onStart()
-        // Resume playback
+
         if (isPlaying) {
             player?.play()
             handler.postDelayed(updateSeekBarRunnable, 1000)

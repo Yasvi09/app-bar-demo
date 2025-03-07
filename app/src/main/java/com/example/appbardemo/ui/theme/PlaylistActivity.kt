@@ -21,7 +21,6 @@ class PlaylistActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_playlist)
 
-        // Initialize views
         recyclerView = findViewById(R.id.playlistSongsRecyclerView)
         playlistTitleTextView = findViewById(R.id.playlistTitleText)
         playlistInfoTextView = findViewById(R.id.playlistInfoText)
