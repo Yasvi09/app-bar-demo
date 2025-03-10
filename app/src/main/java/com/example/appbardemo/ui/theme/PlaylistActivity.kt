@@ -35,30 +35,22 @@ class PlaylistActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_playlist)
 
-        // Initialize ViewModel
         viewModel = ViewModelProvider(this)[MusicViewModel::class.java]
 
-        // Initialize views
         initializeViews()
 
-        // Get playlist info from intent
         playlistId = intent.getStringExtra(EXTRA_PLAYLIST_ID) ?: ""
         val playlistTitle = intent.getStringExtra(EXTRA_PLAYLIST_TITLE) ?: "Playlist"
 
-        // Set initial playlist info (will be updated from database)
         playlistTitleTextView.text = playlistTitle
         playlistInfoTextView.text = "Loading songs..."
 
-        // Show loading indicator
         progressBar.visibility = View.VISIBLE
 
-        // Set up RecyclerView
         setupRecyclerView()
 
-        // Set up click listeners
         setupClickListeners()
 
-        // Load the playlist data
         loadPlaylistData()
     }
 
@@ -69,7 +61,7 @@ class PlaylistActivity : AppCompatActivity() {
         playlistImageView = findViewById(R.id.playlistImageView)
         backButton = findViewById(R.id.backButton)
         playButton = findViewById(R.id.playAllButton)
-        progressBar = findViewById(R.id.progressBar) // Make sure to add this to activity_playlist.xml
+        progressBar = findViewById(R.id.progressBar)
     }
 
     private fun setupRecyclerView() {
@@ -88,7 +80,7 @@ class PlaylistActivity : AppCompatActivity() {
         }
 
         playButton.setOnClickListener {
-            // Play all songs in the playlist, starting with the first one
+
             val songs = adapter.getSongs()
             if (songs.isNotEmpty()) {
                 playSong(songs[0], 0)

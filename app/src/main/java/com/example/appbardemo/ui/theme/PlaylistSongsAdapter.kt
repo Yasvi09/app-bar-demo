@@ -14,7 +14,7 @@ class PlaylistSongsAdapter(
     private val listener: OnSongClickListener
 ) : RecyclerView.Adapter<PlaylistSongsAdapter.SongViewHolder>() {
 
-    // Track the currently playing song position (if any)
+
     private var currentlyPlayingPosition: Int = -1
 
     interface OnSongClickListener {

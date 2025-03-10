@@ -82,7 +82,7 @@ class PrivateActivity : AppCompatActivity() {
             }
         }
 
-        deleteButton.setOnClickListener {
+        deleteButton.setOnClickListener{
             if (enteredPassword.isNotEmpty()) {
                 enteredPassword.deleteCharAt(enteredPassword.length - 1)
                 passwordDisplay.text = if (enteredPassword.isEmpty()) "" else enteredPassword.toString()

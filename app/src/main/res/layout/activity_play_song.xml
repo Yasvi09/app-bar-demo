@@ -188,7 +188,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:rotation="-45"
-                android:layout_marginLeft="2dp"
                 android:src="@drawable/ic_play"
                 app:tint="@color/white" />
         </FrameLayout>

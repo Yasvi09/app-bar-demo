@@ -305,14 +305,12 @@ class PlaySongActivity : AppCompatActivity(), Player.Listener {
 
         val song = playlistSongs[index]
 
-        // Update the UI
         songTitle.text = song.name
         artistName.text = song.artist
         totalDuration = song.duration
         songSeekBar.max = totalDuration
         songSeekBar.progress = 0
 
-        // Update audio
         audioUrl = song.url
         player?.stop()
         player?.clearMediaItems()
@@ -326,7 +324,6 @@ class PlaySongActivity : AppCompatActivity(), Player.Listener {
             updatePlayPauseButton()
         }
 
-        // Update image
         if (song.image.isNotEmpty()) {
             Glide.with(this)
                 .load(song.image)
@@ -334,14 +331,12 @@ class PlaySongActivity : AppCompatActivity(), Player.Listener {
                 .into(albumArt)
         }
 
-        // Update track position
         updateTrackPositionText()
     }
 
     @OptIn(UnstableApi::class)
     private fun openEqualizer() {
         try {
-            // Pass the audio session ID from ExoPlayer
             val sessionId = player?.audioSessionId ?: 0
             if (sessionId != 0) {
                 val intent = android.content.Intent(this, EqualizerActivity::class.java).apply {
@@ -352,27 +347,20 @@ class PlaySongActivity : AppCompatActivity(), Player.Listener {
                 Toast.makeText(this, "Audio session not available", Toast.LENGTH_SHORT).show()
             }
         } catch (e: Exception) {
-            Toast.makeText(
-                this,
-                "Error opening equalizer: ${e.message}",
-                Toast.LENGTH_SHORT
-            ).show()
+            Toast.makeText(this, "Error opening equalizer: ${e.message}", Toast.LENGTH_SHORT).show()
             e.printStackTrace()
         }
     }
 
-    // ExoPlayer Listener callbacks
     override fun onPlaybackStateChanged(state: Int) {
         when (state) {
             Player.STATE_READY -> {
-                // Update duration when media is ready
                 totalDuration = (player?.duration ?: 0).toInt() / 1000
                 songSeekBar.max = totalDuration
                 totalTimeText.text = formatTime(totalDuration)
             }
 
             Player.STATE_ENDED -> {
-                // Playback ended - go to next song or replay
                 skipToNext()
             }
 
@@ -387,8 +375,8 @@ class PlaySongActivity : AppCompatActivity(), Player.Listener {
     }
 
     override fun onStart() {
-        super.onStart()
-        // Resume playback
+       super.onStart()
+
         if (isPlaying) {
             player?.play()
             handler.postDelayed(updateSeekBarRunnable, 1000)
@@ -442,13 +430,13 @@ class PlaySongActivity : AppCompatActivity(), Player.Listener {
         }
     }
 
-    // Add this method to update the track position display
     private fun updateTrackPositionText() {
         if (playlistSongs.isNotEmpty() && currentSongIndex != -1) {
             val trackPositionText = findViewById<TextView>(R.id.trackPositionText)
             trackPositionText.text = "${currentSongIndex + 1}/${playlistSongs.size}"
         }
     }
+
     companion object {
         const val EXTRA_SONG_TITLE = "song_title"
         const val EXTRA_ARTIST_NAME = "artist_name"

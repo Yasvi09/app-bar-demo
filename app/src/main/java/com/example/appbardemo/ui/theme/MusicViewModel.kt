@@ -27,11 +27,9 @@ class MusicViewModel : ViewModel() {
     private val _error = MutableLiveData<String?>()
     val error: LiveData<String?> = _error
 
-    // For currently selected playlist
     private val _currentPlaylist = MutableLiveData<PlaylistModel?>()
     val currentPlaylist: LiveData<PlaylistModel?> = _currentPlaylist
 
-    // Songs in the currently selected playlist
     private val _playlistSongs = MutableLiveData<List<SongModel>>()
     val playlistSongs: LiveData<List<SongModel>> = _playlistSongs
 
@@ -46,12 +44,11 @@ class MusicViewModel : ViewModel() {
                 _isLoading.value = true
                 _error.value = null
 
-                // Try to load from Firebase first
                 val firebaseSongs = tryLoadFromFirebase()
                 _songs.value = firebaseSongs
 
             } catch (e: Exception) {
-                // Log the error but don't crash
+
                 e.printStackTrace()
                 _error.value = "Failed to load songs: ${e.message}"
 
@@ -67,7 +64,6 @@ class MusicViewModel : ViewModel() {
                 _isLoading.value = true
                 _error.value = null
 
-                // Fetch playlists from Firebase
                 val db = FirebaseFirestore.getInstance()
                 val snapshot = db.collection("playlists").get().await()
                 val loadedPlaylists = snapshot.toObjects(PlaylistModel::class.java)
@@ -77,8 +73,6 @@ class MusicViewModel : ViewModel() {
             } catch (e: Exception) {
                 e.printStackTrace()
                 _error.value = "Failed to load playlists: ${e.message}"
-
-                // Fall back to sample playlists if Firebase fails
 
             } finally {
                 _isLoading.value = false
@@ -100,7 +94,7 @@ class MusicViewModel : ViewModel() {
     fun updateFavoriteStatus(songId: String, isFavorite: Boolean) {
         viewModelScope.launch {
             try {
-                // Try to update in Firebase if available
+
                 val db = FirebaseFirestore.getInstance()
                 db.collection("songs").document(songId)
                     .update("isFavorite", isFavorite)
@@ -108,7 +102,6 @@ class MusicViewModel : ViewModel() {
                         // Ignore Firebase errors - just update local data
                     }
 
-                // Update local data anyway
                 val currentSongs = _songs.value?.toMutableList() ?: mutableListOf()
                 val index = currentSongs.indexOfFirst { it.id == songId }
 
@@ -128,12 +121,10 @@ class MusicViewModel : ViewModel() {
             try {
                 _isLoading.value = true
 
-                // Find the playlist
                 val playlist = _playlists.value?.find { it.id == playlistId }
                 _currentPlaylist.value = playlist
 
                 if (playlist != null) {
-                    // Fetch the songs in this playlist
                     loadPlaylistSongs(playlist)
                 } else {
                     _playlistSongs.value = emptyList()
@@ -155,12 +146,11 @@ class MusicViewModel : ViewModel() {
                 val db = FirebaseFirestore.getInstance()
                 val playlistRef = db.collection("playlists").document(playlistId)
 
-                // First get the current song IDs
                 val playlistDoc = playlistRef.get().await()
                 val playlist = playlistDoc.toObject(PlaylistModel::class.java)
 
                 if (playlist != null && !playlist.songIds.contains(songId)) {
-                    // Add the song ID to the list
+
                     val updatedSongIds = playlist.songIds + songId
 
                     // Update the playlist document
@@ -239,12 +229,11 @@ class MusicViewModel : ViewModel() {
                     coverImageUrl = coverImageUrl,
                     songIds = emptyList(),
                     totalDuration = 0,
-                    createdBy = "current_user", // Replace with actual user ID
+                    createdBy = "current_user",
                     createdAt = System.currentTimeMillis(),
                     isPublic = true
                 )
 
-                // Add to Firestore
                 val docRef = db.collection("playlists").add(newPlaylist).await()
 
                 // Add the document ID to the playlist
@@ -262,12 +251,7 @@ class MusicViewModel : ViewModel() {
         }
     }
 
-    // Sample playlists for fallback
-    // Add these functions to your MusicViewModel class to improve playlist song fetching
 
-    /**
-     * Fetches and loads songs for a specific playlist by its songIds
-     */
     fun loadPlaylistSongs(playlist: PlaylistModel) {
         viewModelScope.launch {
             try {
@@ -292,9 +276,6 @@ class MusicViewModel : ViewModel() {
     }
 
 
-    /**
-     * Fetches songs by their IDs in a batch operation
-     */
     private suspend fun fetchSongsByIds(songIds: List<String>): List<SongModel> = withContext(Dispatchers.IO) {
         if (songIds.isEmpty()) return@withContext emptyList<SongModel>()
 

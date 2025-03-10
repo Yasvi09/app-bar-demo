@@ -8,12 +8,11 @@ data class PlaylistModel(
     val description: String = "",
     val coverImageUrl: String = "",
     val songIds: List<String> = emptyList(),
-    val totalDuration: Int = 0, // in seconds
+    val totalDuration: Int = 0,
     val createdBy: String = "",
     val createdAt: Long = 0,
     val isPublic: Boolean = true
 ) {
-    // Helper method to get the formatted duration
     fun getFormattedDuration(): String {
         val hours = totalDuration / 3600
         val minutes = (totalDuration % 3600) / 60
