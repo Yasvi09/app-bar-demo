@@ -77,7 +77,6 @@ class PlaySongActivity : AppCompatActivity(), Player.Listener {
 
         val seekBar = findViewById<SeekBar>(R.id.songSeekBar)
 
-// Apply current theme color to text elements
         val themeColor = ThemeManager.getInstance(this).getThemeColor()
 
         seekBar.progressTintList = ColorStateList.valueOf(themeColor)

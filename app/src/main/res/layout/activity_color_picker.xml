@@ -54,7 +54,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="25dp"
         app:cardBackgroundColor="#212121"
         app:cardCornerRadius="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -80,12 +80,12 @@
                 android:id="@+id/colorGrid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:columnCount="5"
-                android:rowCount="8">
-
-                <!-- Color circles will be added programmatically -->
-
+                android:rowCount="9"
+                android:layout_gravity="center"
+                android:useDefaultMargins="true"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="20dp">
             </GridLayout>
 
             <Button

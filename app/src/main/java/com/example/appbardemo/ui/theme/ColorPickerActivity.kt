@@ -32,12 +32,10 @@ class ColorPickerActivity : AppCompatActivity() {
         themeManager = ThemeManager.getInstance(this)
         colorGrid = findViewById(R.id.colorGrid)
 
-        // Set click listener for the back button
         findViewById<ImageView>(R.id.backButton).setOnClickListener {
             finish()
         }
 
-        // Set click listener for the apply button
         findViewById<View>(R.id.applyButton).setOnClickListener {
             if (selectedColorString.isNotEmpty()) {
                 applySelectedTheme()
@@ -48,11 +46,9 @@ class ColorPickerActivity : AppCompatActivity() {
 
         setupColorGrid()
 
-        // Inside ColorPickerActivity.kt, in onCreate method after initializing views
         val colorSelectText = findViewById<TextView>(R.id.colorSelectText)
         val applyButton = findViewById<Button>(R.id.applyButton)
 
-// Apply current theme color to text elements
         val currentThemeColor = themeManager.getThemeColor()
         colorSelectText.setTextColor(currentThemeColor)
         applyButton.setTextColor(currentThemeColor)
@@ -67,57 +63,47 @@ class ColorPickerActivity : AppCompatActivity() {
             val circle = colorView.findViewById<View>(R.id.colorCircle)
             val checkIcon = colorView.findViewById<ImageView>(R.id.checkIcon)
 
-            // Set the color of the circle
             val colorInt = Color.parseColor(colors[i])
             val background = circle.background as GradientDrawable
             background.setColor(colorInt)
 
-            // Check if this is the current theme color
             if (colors[i].equals(currentThemeColor, ignoreCase = true)) {
                 checkIcon.visibility = View.VISIBLE
                 selectedColorPosition = i
                 selectedColorString = colors[i]
             }
 
-            // Set click listener for the color
             colorView.setOnClickListener {
-                // Update selection
                 updateSelection(i, colors[i])
             }
 
-            // Add to GridLayout
             val params = GridLayout.LayoutParams()
             params.width = GridLayout.LayoutParams.WRAP_CONTENT
             params.height = GridLayout.LayoutParams.WRAP_CONTENT
             colorGrid.addView(colorView, params)
 
-            // Save references for later
             colorViews.add(circle)
             checkIcons.add(checkIcon)
         }
     }
 
     private fun updateSelection(position: Int, colorString: String) {
-        // Clear previous selection
+
         if (selectedColorPosition != -1 && selectedColorPosition < checkIcons.size) {
             checkIcons[selectedColorPosition].visibility = View.GONE
         }
 
-        // Set new selection
         selectedColorPosition = position
         selectedColorString = colorString
         checkIcons[position].visibility = View.VISIBLE
     }
 
     private fun applySelectedTheme() {
-        // Save the selected color to preferences
+
         themeManager.setThemeColor(selectedColorString)
 
-        // Show success message
         Toast.makeText(this, "Theme color updated", Toast.LENGTH_SHORT).show()
 
-        // Restart the app to apply the new theme
-        // In a real app, you might want to use a more elegant approach
         val intent = Intent(this, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)

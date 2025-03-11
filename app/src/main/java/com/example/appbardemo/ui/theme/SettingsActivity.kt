@@ -16,24 +16,20 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        // Initialize theme manager
         themeManager = ThemeManager.getInstance(this)
 
         findViewById<ImageView>(R.id.backButton).setOnClickListener {
             finish()
         }
 
-        // Apply theme color to UI elements
         applyThemeToUI()
 
         setupSettingsListeners()
     }
 
     private fun applyThemeToUI() {
-        // Get theme color
         val themeColor = themeManager.getThemeColor()
 
-        // Apply to all switches
         val switches = listOf(
             findViewById<SwitchCompat>(R.id.colorThemeSwitch),
             findViewById<SwitchCompat>(R.id.externalCodecSwitch),
@@ -48,12 +44,7 @@ class SettingsActivity : AppCompatActivity() {
             themeManager.applyThemeToSwitch(switch)
         }
 
-        // Apply to category header texts
-        val categoryTexts = listOf(
-            findViewById<TextView>(R.id.settingsTitle)
-        )
 
-        // Find category headers (which have green text color)
         val allTextViews = findAllTextViewsInLayout(findViewById(android.R.id.content))
         for (textView in allTextViews) {
             if (textView.currentTextColor == resources.getColor(R.color.green_accent, theme)) {
@@ -79,11 +70,11 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun setupSettingsListeners() {
-        findViewById<android.widget.TextView>(R.id.getVideoPlayerPremium).setOnClickListener {
+        findViewById<TextView>(R.id.getVideoPlayerPremium).setOnClickListener {
             // Handle premium purchase
         }
 
-        findViewById<android.widget.TextView>(R.id.restorePurchase).setOnClickListener {
+        findViewById<TextView>(R.id.restorePurchase).setOnClickListener {
             // Handle restore purchase
         }
 
@@ -92,11 +83,11 @@ class SettingsActivity : AppCompatActivity() {
             ColorPickerActivity.start(this)
         }
 
-        findViewById<androidx.appcompat.widget.SwitchCompat>(R.id.colorThemeSwitch).setOnCheckedChangeListener { _, isChecked ->
+        findViewById<SwitchCompat>(R.id.colorThemeSwitch).setOnCheckedChangeListener { _, isChecked ->
             // Toggle color theme
         }
 
-        findViewById<android.widget.RelativeLayout>(R.id.languageLayout).setOnClickListener {
+        findViewById<RelativeLayout>(R.id.languageLayout).setOnClickListener {
             // Open language selector
         }
     }

@@ -12,9 +12,6 @@ import androidx.core.content.ContextCompat
 import com.example.appbardemo.R
 import com.google.android.material.imageview.ShapeableImageView
 
-/**
- * Manages the theme color across the application
- */
 class ThemeManager private constructor(context: Context) {
     private val sharedPreferences: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
     private val appContext = context.applicationContext
@@ -34,121 +31,101 @@ class ThemeManager private constructor(context: Context) {
         }
     }
 
-    /**
-     * Gets the current theme color
-     */
+
     fun getThemeColor(): Int {
         val colorString = sharedPreferences.getString(KEY_THEME_COLOR, DEFAULT_THEME_COLOR) ?: DEFAULT_THEME_COLOR
         return Color.parseColor(colorString)
     }
 
-    /**
-     * Returns the current theme color as a hex string
-     */
     fun getThemeColorString(): String {
         return sharedPreferences.getString(KEY_THEME_COLOR, DEFAULT_THEME_COLOR) ?: DEFAULT_THEME_COLOR
     }
 
-    /**
-     * Sets a new theme color
-     */
+
     fun setThemeColor(colorString: String) {
         sharedPreferences.edit().putString(KEY_THEME_COLOR, colorString).apply()
     }
 
-    /**
-     * Applies the theme color to a SwitchCompat
-     */
     fun applyThemeToSwitch(switch: SwitchCompat) {
         val themeColor = getThemeColor()
         switch.thumbTintList = ColorStateList.valueOf(Color.WHITE)
         switch.trackTintList = ColorStateList.valueOf(themeColor)
     }
 
-    /**
-     * Applies the theme to the diamond border
-     */
     fun applyThemeToDiamondBorders(view: View) {
         // Implementation would depend on how diamond borders are created
         // This is a placeholder for the actual implementation
     }
 
-    /**
-     * Applies theme to an ImageView (for tinting icons)
-     */
     fun applyThemeToImageView(imageView: ImageView) {
         imageView.imageTintList = ColorStateList.valueOf(getThemeColor())
     }
 
-    /**
-     * Applies theme to a TextView
-     */
     fun applyThemeToTextView(textView: TextView) {
         textView.setTextColor(getThemeColor())
     }
 
-    /**
-     * Updates all color references in styles and drawables
-     * Note: This is called when the app starts or when theme changes
-     */
     fun updateAppTheme() {
         // This would normally involve runtime resource overrides
         // or other methods to globally change the theme
         // This is a simple implementation for demonstration
     }
 
-    /**
-     * Predefined theme colors
-     */
     object ThemeColors {
         val COLORS = listOf(
             "#FF0000", // Red
-            "#FF5722", // Deep Orange
-            "#FFA500", // Orange
-            "#FFEB3B", // Yellow
-            "#CDDC39", // Lime
+            "#FB450B", // Deep Orange
+            "#FBC60B", // Dark yellow
+            "#FFF730", // lemon Yellow
+            "#56F71E", // neon
 
             "#8BC34A", // Light Green
-            "#4CAF50", // Green
+            "#00C814", // Green
             "#CBFB0B", // Lime Green (Default)
-            "#009688", // Teal
-            "#0000FF", // Blue
+            "#00909E", // Teal
+            "#00072D", // Neavy blue
 
-            "#9C27B0", // Purple
-            "#00BCD4", // Cyan
-            "#FF9800", // Orange
+            "#FA26A0", // Pink
+            "#05DFD7", // Cyan
+            "#05DFD7", // Orange
+            "#FF4301", // Pink
+            "#41EAD4", // Light cyan
+
+            "#FA7D09", // light Orange
+            "#34495e", // Dark gray
+            "#BC3908", // Dark orange
             "#E91E63", // Pink
-            "#2196F3", // Light Blue
+            "#d2b4de", // Light pink
 
-            "#FF5722", // Deep Orange
-            "#795548", // Brown
-            "#FFEB3B", // Yellow
-            "#E91E63", // Pink
-            "#3F51B5", // Indigo
+            "#900C3F", // Beat
+            "#FF9595", // Peach
+            "#3490DE", // light blue
+            "#B0DFFF", // sky blue
+            "#2D00F7", // Rediam blue
 
-            "#00BCD4", // Cyan
-            "#000080", // Navy
-            "#9C27B0", // Purple
-            "#009688", // Teal
-            "#FF0000", // Red
+            "#76EAD7", // Deep cyan
+            "#111D5E", // blue Accent
+            "#6A197D", // dark purple
+            "#32E0C4", // cyan
+            "#EF233C", // light red
 
-            "#673AB7", // Deep Purple
-            "#FF4081", // Pink Accent
-            "#FFC107", // Amber
-            "#CDDC39", // Lime
-            "#9C27B0", // Purple
+            "#8338EC", // pruple
+            "#FF0054", // pink accent
+            "#FFD23F", // Amber
+            "#BC00DD", // purple accent
+            "#A5BE00", // Lime Accent
 
-            "#795548", // Brown
-            "#FF9800", // Orange
-            "#FFCCBC", // Light Orange
-            "#03A9F4", // Light Blue
-            "#E040FB", // Purple Accent
+            "#CA5252", // cool pink
+            "#C87700", // Light brown
+            "#FFC773", // skin
+            "#00D1FF", // sky blue
+            "#eb984e", // light orange
 
-            "#2196F3", // Blue
-            "#8BC34A", // Light Green
-            "#5D4037", // Brown
-            "#7B1FA2", // Purple
-            "#BDBDBD"  // Gray
+            "#00A3FF", // cloud blue
+            "#76FF73", // Light Green
+            "#5F3900", // Brown
+            "#761C1C", // blood red
+            "#BFBFBF"  // Gray
         )
     }
 }
