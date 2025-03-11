@@ -15,7 +15,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.FirebaseApp
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var fabLayout: FrameLayout
+    private lateinit var fabLayout: View
     private lateinit var curvedBottomNav: CurvedBottomNavigationView
     private lateinit var themeManager: ThemeManager
 
@@ -38,7 +38,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun init(){
-        fabLayout = findViewById(R.id.fabContainer)
+        fabLayout = findViewById(R.id.squareFab)
+
+        // Apply theme color to FAB background
+        themeManager.applyThemeToFabGradient(fabLayout)
+
         fabLayout.setOnClickListener {
             showMenu()
         }
@@ -67,6 +71,16 @@ class MainActivity : AppCompatActivity() {
         curvedTopSheet.setCornerRadius(150f)
         curvedTopSheet.setButtonSize(220f)
         curvedTopSheet.setNotchCornerRadius(20f)
+
+        bottomSheetView.post {
+            // Get all the diamond containers
+            val diamondContainers = findDiamondContainers(bottomSheetView)
+
+            // Apply theme to each diamond container
+            for (container in diamondContainers) {
+                themeManager.applyThemeToDiamondBorder(container)
+            }
+        }
 
         val downButtonContainer = bottomSheetView.findViewById<FrameLayout>(R.id.downButtonContainer)
         downButtonContainer.setOnClickListener {
@@ -117,6 +131,31 @@ class MainActivity : AppCompatActivity() {
             behavior.isDraggable = false
         }
         bottomSheetDialog.show()
+    }
+
+    private fun findDiamondContainers(rootView: View): List<View> {
+        val result = mutableListOf<View>()
+
+        // If the root view is a ViewGroup, search through its children
+        if (rootView is ViewGroup) {
+            // Look for FrameLayouts with rotation == 45 and background == diamond_border
+            for (i in 0 until rootView.childCount) {
+                val child = rootView.getChildAt(i)
+
+                // Check if this is a diamond container
+                if (child is FrameLayout && child.rotation == 45f) {
+                    // This is likely a diamond container
+                    result.add(child)
+                }
+
+                // Recursively search in child view groups
+                if (child is ViewGroup) {
+                    result.addAll(findDiamondContainers(child))
+                }
+            }
+        }
+
+        return result
     }
 
     private fun findButtonByText(rootView: View, buttonText: String): FrameLayout? {

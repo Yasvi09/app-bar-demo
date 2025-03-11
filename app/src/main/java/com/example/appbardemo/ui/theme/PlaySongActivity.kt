@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
@@ -37,6 +38,8 @@ class PlaySongActivity : AppCompatActivity(), Player.Listener {
     private lateinit var songSeekBar: SeekBar
     private lateinit var playPauseButton: ImageView
     private lateinit var favoriteButton: ImageView
+    private lateinit var fabLayout: FrameLayout
+    private lateinit var themeManager: ThemeManager
 
     private var player: ExoPlayer? = null
     private var isPlaying = false
@@ -96,6 +99,13 @@ class PlaySongActivity : AppCompatActivity(), Player.Listener {
         songSeekBar = findViewById(R.id.songSeekBar)
         playPauseButton = findViewById(R.id.playPauseButton)
         favoriteButton = findViewById(R.id.favoriteButton)
+
+        fabLayout = findViewById(R.id.playPauseContainer)
+
+        // Apply theme color to FAB background
+themeManager = ThemeManager.getInstance(this)
+        themeManager.applyThemeToFabGradient(fabLayout)
+
 
         songSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {

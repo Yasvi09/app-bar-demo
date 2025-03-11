@@ -3,6 +3,7 @@ package com.example.appbardemo.ui.theme
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.Toast
@@ -19,8 +20,9 @@ class MusicActivity : AppCompatActivity() {
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager: ViewPager2
     private lateinit var curvedBottomNav: CurvedBottomNavigationView
-    private lateinit var fabContainer: FrameLayout
+    private lateinit var fabContainer: View
     private lateinit var viewModel: MusicViewModel
+    private lateinit var themeManager: ThemeManager
     private val tabTitles = arrayOf("ALBUM", "SONGS", "ARTIST", "FOLDER", "PLAYLIST")
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +63,13 @@ class MusicActivity : AppCompatActivity() {
         tabLayout = findViewById(R.id.tabLayout)
         viewPager = findViewById(R.id.viewPager)
         curvedBottomNav = findViewById(R.id.curvedBottomNavBackground)
-        fabContainer = findViewById(R.id.fabContainer)
+        fabContainer = findViewById(R.id.squareFab)
+
+
+        themeManager = ThemeManager.getInstance(this)
+        // Apply theme color to FAB background
+        themeManager.applyThemeToFabGradient(fabContainer)
+
     }
 
     private fun setupBottomNavigation() {
@@ -120,6 +128,17 @@ class MusicActivity : AppCompatActivity() {
                 it.setNotchCornerRadius(20f)
             }
 
+            bottomSheetView.post {
+                // Get all the diamond containers
+                val diamondContainers = findDiamondContainers(bottomSheetView)
+
+                // Apply theme to each diamond container
+                for (container in diamondContainers) {
+                    themeManager.applyThemeToDiamondBorder(container)
+                }
+            }
+
+
             val downButtonContainer = bottomSheetView.findViewById<FrameLayout>(R.id.downButtonContainer)
             downButtonContainer?.setOnClickListener {
                 bottomSheetDialog.dismiss()
@@ -142,4 +161,30 @@ class MusicActivity : AppCompatActivity() {
             Toast.makeText(this, "Error showing menu: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
+
+    private fun findDiamondContainers(rootView: View): List<View> {
+        val result = mutableListOf<View>()
+
+        // If the root view is a ViewGroup, search through its children
+        if (rootView is ViewGroup) {
+            // Look for FrameLayouts with rotation == 45 and background == diamond_border
+            for (i in 0 until rootView.childCount) {
+                val child = rootView.getChildAt(i)
+
+                // Check if this is a diamond container
+                if (child is FrameLayout && child.rotation == 45f) {
+                    // This is likely a diamond container
+                    result.add(child)
+                }
+
+                // Recursively search in child view groups
+                if (child is ViewGroup) {
+                    result.addAll(findDiamondContainers(child))
+                }
+            }
+        }
+
+        return result
+    }
+
 }

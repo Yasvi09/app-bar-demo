@@ -4,7 +4,10 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.LayerDrawable
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.SwitchCompat
@@ -30,7 +33,66 @@ class ThemeManager private constructor(context: Context) {
             }
         }
     }
+    fun applyThemeToFabGradient(view: View) {
+        val themeColor = getThemeColor()
 
+        // Get the background drawable
+        val background = view.background
+
+        if (background is GradientDrawable) {
+            // Calculate a complementary or darker color for the end of the gradient
+            val endColor = calculateGradientEndColor(themeColor)
+
+            // Set new gradient colors without changing other properties of the drawable
+            background.colors = intArrayOf(themeColor, endColor)
+
+            // Invalidate the view to redraw with new colors
+            view.invalidate()
+        }
+    }
+
+    fun applyThemeToDiamondBorder(view: View) {
+        val themeColor = getThemeColor()
+
+        // Get the background drawable from the view
+        val background = view.background
+
+        if (background is LayerDrawable) {
+            // The diamond_border.xml is a LayerDrawable with 2 layers
+            // The first layer (index 0) contains the gradient
+            val gradientLayer = background.getDrawable(0)
+
+            if (gradientLayer is GradientDrawable) {
+                // Calculate end color for the gradient
+                val endColor = calculateGradientEndColor(themeColor)
+
+                // Update the gradient colors
+                gradientLayer.colors = intArrayOf(themeColor, endColor)
+
+                // Invalidate the view to redraw
+                view.invalidate()
+            }
+        }
+    }
+
+    // Helper method to calculate an appropriate end color for the gradient
+    private fun calculateGradientEndColor(startColor: Int): Int {
+        // If the start color is #CAF90B (lime green), return #03BE7B (teal green)
+        if (startColor == Color.parseColor("#CAF90B")) {
+            return Color.parseColor("#03BE7B")
+        }
+
+        // For other colors, calculate a complementary color
+        val hsv = FloatArray(3)
+        Color.colorToHSV(startColor, hsv)
+
+        // Shift the hue by 60 degrees and reduce saturation slightly
+        hsv[0] = (hsv[0] + 60) % 360
+        hsv[1] = Math.max(hsv[1] - 0.1f, 0f) // Reduce saturation slightly
+        hsv[2] = Math.min(hsv[2] * 0.9f, 1f) // Darken slightly
+
+        return Color.HSVToColor(hsv)
+    }
 
     fun getThemeColor(): Int {
         val colorString = sharedPreferences.getString(KEY_THEME_COLOR, DEFAULT_THEME_COLOR) ?: DEFAULT_THEME_COLOR
