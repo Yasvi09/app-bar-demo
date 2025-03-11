@@ -44,6 +44,10 @@ class MusicActivity : AppCompatActivity() {
             setupClickListeners()
             setupBottomNavigation()
 
+            tabLayout = findViewById(R.id.tabLayout)
+            // Add this line:
+            tabLayout.setSelectedTabIndicatorColor(ThemeManager.getInstance(this).getThemeColor())
+
         } catch (e: Exception) {
             // Log the exception and show a Toast message
             e.printStackTrace()

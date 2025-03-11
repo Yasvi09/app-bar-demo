@@ -1,10 +1,12 @@
 package com.example.appbardemo.ui.theme
 
+import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
@@ -72,6 +74,14 @@ class PlaySongActivity : AppCompatActivity(), Player.Listener {
         if (!playlistId.isNullOrEmpty()) {
             loadPlaylistSongs()
         }
+
+        val seekBar = findViewById<SeekBar>(R.id.songSeekBar)
+
+// Apply current theme color to text elements
+        val themeColor = ThemeManager.getInstance(this).getThemeColor()
+
+        seekBar.progressTintList = ColorStateList.valueOf(themeColor)
+        seekBar.thumbTintList = ColorStateList.valueOf(themeColor)
 
 
     }

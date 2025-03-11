@@ -17,10 +17,17 @@ import com.google.firebase.FirebaseApp
 class MainActivity : AppCompatActivity() {
     private lateinit var fabLayout: FrameLayout
     private lateinit var curvedBottomNav: CurvedBottomNavigationView
+    private lateinit var themeManager: ThemeManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Initialize theme manager before setting content view
+        themeManager = ThemeManager.getInstance(this)
+        themeManager.updateAppTheme() // Apply current theme
+
         setContentView(R.layout.activity_main)
+
         try {
             FirebaseApp.initializeApp(this)
             println("Firebase initialized successfully")
@@ -38,6 +45,8 @@ class MainActivity : AppCompatActivity() {
 
         curvedBottomNav = findViewById(R.id.curvedBottomNavBackground)
 
+        // Apply theme color to navigation
+        val themeColor = themeManager.getThemeColor()
         curvedBottomNav.setNavColor(getColor(R.color.white))
         curvedBottomNav.setCornerRadius(40f)
         curvedBottomNav.setFabSize(200f)
@@ -66,7 +75,6 @@ class MainActivity : AppCompatActivity() {
 
         val musicButtonContainer = findButtonByText(bottomSheetView, "Music")
         musicButtonContainer?.setOnClickListener {
-
             val intent = Intent(this, MusicActivity::class.java)
             startActivity(intent)
             bottomSheetDialog.dismiss()
@@ -93,6 +101,13 @@ class MainActivity : AppCompatActivity() {
             bottomSheetDialog.dismiss()
         }
 
+        // Add click listener for Theme button
+        val themeButtonContainer = findButtonByText(bottomSheetView, "Theme")
+        themeButtonContainer?.setOnClickListener {
+            ColorPickerActivity.start(this)
+            bottomSheetDialog.dismiss()
+        }
+
         bottomSheetDialog.setContentView(bottomSheetView)
 
         bottomSheetView.post{
@@ -105,11 +120,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun findButtonByText(rootView: View, buttonText: String): FrameLayout? {
-
         val matchingTextViews = findViewsWithText(rootView, buttonText)
 
         for (textView in matchingTextViews) {
-
             val diamondContainer = findParentWithRotation(textView, 45f)
             if (diamondContainer is FrameLayout) {
                 return diamondContainer
@@ -138,7 +151,6 @@ class MainActivity : AppCompatActivity() {
         var current: View? = view
 
         while (current != null) {
-
             if (current.rotation == rotation) {
                 return current
             }
@@ -148,5 +160,4 @@ class MainActivity : AppCompatActivity() {
 
         return null
     }
-
 }

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-
-    <style name="GreenSwitch" parent="Theme.AppCompat.Light">
-        <item name="colorControlActivated">#CBFB0B</item>
+    <!-- Modified style to use dynamic theme color instead of hardcoded value -->
+    <style name="ThemeColorSwitch" parent="Theme.AppCompat.Light">
+        <!-- These values will be overridden at runtime by ThemeManager -->
+        <item name="colorControlActivated">?attr/colorAccent</item>
         <item name="colorSwitchThumbNormal">#f1f1f1</item>
-        <item name="android:colorForeground">#CBFB0B</item>
+        <item name="android:colorForeground">?attr/colorAccent</item>
     </style>
-    
+
     <style name="RoundedSquare">
         <item name="cornerSize">30%</item>
     </style>
