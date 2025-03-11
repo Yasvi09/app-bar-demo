@@ -339,6 +339,23 @@ class MusicViewModel : ViewModel() {
             return@withContext songIds.mapNotNull { cachedSongMap[it] }
         }
     }
+
+    // Add this method to MusicViewModel
+    fun getSongsByIds(songIds: List<String>, callback: (List<SongModel>) -> Unit) {
+        viewModelScope.launch {
+            try {
+                _isLoading.value = true
+                val result = fetchSongsByIds(songIds)
+                callback(result)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                callback(emptyList())
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
     /**
      * Get a playlist by its ID (first from cache, then from Firebase if needed)
      */

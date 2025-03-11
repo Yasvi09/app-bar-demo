@@ -52,12 +52,16 @@ class PlaySongActivity : AppCompatActivity(), Player.Listener {
     private var playlistId: String? = null
     private var currentSongIndex: Int = 0
     private var playlistSongs: List<SongModel> = emptyList()
+    private var songIdList: ArrayList<String>? = null
+    private var sourceType: String = ""
 
     private val handler = Handler(Looper.getMainLooper())
     private lateinit var updateSeekBarRunnable: Runnable
 
     private lateinit var viewModel: MusicViewModel
 
+
+    // Modify the onCreate method to get the song ID list and source type
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_play_song)
@@ -67,6 +71,11 @@ class PlaySongActivity : AppCompatActivity(), Player.Listener {
         init()
         setupSeekBarUpdater()
         setupClickListeners()
+
+        // Get the source type and song ID list if coming from songs tab
+        sourceType = intent.getStringExtra(EXTRA_SOURCE_TYPE) ?: ""
+        songIdList = intent.getStringArrayListExtra(EXTRA_SONG_ID_LIST)
+
         getSongDetails()  // First get the song details including audioUrl
         setupPlayer()     // Then set up the player with the populated audioUrl
 
@@ -76,16 +85,27 @@ class PlaySongActivity : AppCompatActivity(), Player.Listener {
         // If we have a playlist ID, load the playlist songs
         if (!playlistId.isNullOrEmpty()) {
             loadPlaylistSongs()
+        } else if (sourceType == "songs_tab" && !songIdList.isNullOrEmpty()) {
+            // If coming from songs tab, load these songs
+            loadSongsFromIdList()
         }
 
         val seekBar = findViewById<SeekBar>(R.id.songSeekBar)
-
         val themeColor = ThemeManager.getInstance(this).getThemeColor()
-
         seekBar.progressTintList = ColorStateList.valueOf(themeColor)
         seekBar.thumbTintList = ColorStateList.valueOf(themeColor)
+    }
 
+    private fun loadSongsFromIdList() {
+        val songIds = songIdList ?: return
 
+        // Find current song index in the list
+        currentSongIndex = songIds.indexOf(songId)
+
+        viewModel.getSongsByIds(songIds) { fetchedSongs ->
+            playlistSongs = fetchedSongs
+            updateTrackPositionText()
+        }
     }
 
     private fun init() {
@@ -287,10 +307,11 @@ themeManager = ThemeManager.getInstance(this)
         if (player == null) return
 
         // Reset to start of song if we're past 3 seconds, otherwise go to previous song
-        if (playlistSongs.isNotEmpty() && currentSongIndex > 0 && currentPosition <= 3) {
-            // Go to previous song in playlist
+        if ((playlistSongs.isNotEmpty() || !songIdList.isNullOrEmpty()) &&
+            currentSongIndex > 0 && currentPosition <= 3) {
+            // Go to previous song
             currentSongIndex--
-            playSongFromPlaylist(currentSongIndex)
+            playSongFromIndex(currentSongIndex)
         } else {
             // Just reset the current song
             player?.seekTo(0)
@@ -301,16 +322,18 @@ themeManager = ThemeManager.getInstance(this)
     }
 
     private fun skipToNext() {
-        if (playlistSongs.isNotEmpty() && currentSongIndex < playlistSongs.size - 1) {
-            // Go to next song in playlist
+        if ((playlistSongs.isNotEmpty() || !songIdList.isNullOrEmpty()) &&
+            currentSongIndex < playlistSongs.size - 1) {
+            // Go to next song
             currentSongIndex++
-            playSongFromPlaylist(currentSongIndex)
+            playSongFromIndex(currentSongIndex)
         } else {
-            // Just reset the current song or loop back to the first song
-            if (playlistSongs.isNotEmpty()) {
+            // Loop back to the first song if at the end
+            if (playlistSongs.isNotEmpty() || !songIdList.isNullOrEmpty()) {
                 currentSongIndex = 0
-                playSongFromPlaylist(currentSongIndex)
+                playSongFromIndex(currentSongIndex)
             } else {
+                // If no more songs, just reset current song
                 player?.seekTo(0)
                 currentPosition = 0
                 songSeekBar.progress = 0
@@ -318,6 +341,44 @@ themeManager = ThemeManager.getInstance(this)
             }
         }
     }
+
+    private fun playSongFromIndex(index: Int) {
+        if (index < 0 || index >= playlistSongs.size) return
+
+        val song = playlistSongs[index]
+
+        songTitle.text = song.name
+        artistName.text = song.artist
+        totalDuration = song.duration
+        songSeekBar.max = totalDuration
+        songSeekBar.progress = 0
+
+        audioUrl = song.url
+        songId = song.id
+
+        player?.stop()
+        player?.clearMediaItems()
+
+        if (audioUrl.isNotEmpty()) {
+            val mediaItem = MediaItem.fromUri(Uri.parse(audioUrl))
+            player?.setMediaItem(mediaItem)
+            player?.prepare()
+            player?.play()
+            isPlaying = true
+            updatePlayPauseButton()
+        }
+
+        if (song.image.isNotEmpty()) {
+            Glide.with(this)
+                .load(song.image)
+                .apply(RequestOptions().placeholder(R.drawable.album).centerCrop())
+                .into(albumArt)
+        }
+
+        updateTrackPositionText()
+    }
+
+
 
     private fun playSongFromPlaylist(index: Int) {
         if (index < 0 || index >= playlistSongs.size) return
@@ -467,5 +528,7 @@ themeManager = ThemeManager.getInstance(this)
         const val EXTRA_AUDIO_URL = "audio_url"
         const val EXTRA_SONG_ID = "song_id"
         const val EXTRA_PLAYLIST_ID = "playlist_id"
+        const val EXTRA_SONG_ID_LIST = "song_id_list" // New constant
+        const val EXTRA_SOURCE_TYPE = "source_type"   // New constant
     }
 }

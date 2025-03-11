@@ -126,9 +126,12 @@ class MusicAdapter(
                     holder.favoriteButton.visibility = View.GONE
                 }
 
+                // In MusicAdapter.kt, update the song click handler inside the onBindViewHolder method
+// for SongViewHolder case
+
                 holder.itemView.setOnClickListener {
                     if (type == "songs") {
-                        // Launch Play Song Activity with the song data
+                        // Launch Play Song Activity with the song data AND the full song list
                         val intent = Intent(holder.itemView.context, PlaySongActivity::class.java).apply {
                             putExtra(PlaySongActivity.EXTRA_SONG_TITLE, song.name)
                             putExtra(PlaySongActivity.EXTRA_ARTIST_NAME, song.artist)
@@ -139,6 +142,11 @@ class MusicAdapter(
                             putExtra(PlaySongActivity.EXTRA_SONG_ID, song.id)
                             putExtra(PlaySongActivity.EXTRA_AUDIO_URL, song.url)
                             putExtra(PlaySongActivity.EXTRA_IMAGE_URL, song.image)
+
+                            // Pass the list of song IDs from the current tab
+                            val songIds = songs.map { it.id }
+                            putStringArrayListExtra(PlaySongActivity.EXTRA_SONG_ID_LIST, ArrayList(songIds))
+                            putExtra(PlaySongActivity.EXTRA_SOURCE_TYPE, "songs_tab")
                         }
                         holder.itemView.context.startActivity(intent)
                     }
