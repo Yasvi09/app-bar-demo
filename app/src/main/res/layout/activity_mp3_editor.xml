@@ -41,27 +41,25 @@
             android:id="@+id/timeMarkers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0:10  0:10  0:10  0:10  0:10  0:10"
+            android:text="00:00  00:30  01:00  01:30  02:00  02:30"
             android:textColor="@android:color/white"
             android:textSize="12sp" />
     </LinearLayout>
 
     <FrameLayout
+        android:id="@+id/waveformContainer"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:layout_marginTop="30dp">
+        android:layout_marginTop="20dp"
+        android:background="@android:color/black">
 
         <ImageView
             android:id="@+id/waveformView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitCenter" />
+            android:scaleType="fitXY" />
 
-        <View
-            android:layout_width="300dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/selection_border"
-            android:layout_gravity="center" />
+        <!-- The custom WaveformSelectionView will be added here programmatically -->
     </FrameLayout>
 
     <LinearLayout
@@ -70,32 +68,32 @@
         android:orientation="horizontal"
         android:gravity="center"
         android:paddingVertical="8dp"
-        android:layout_marginTop="80dp">
+        android:layout_marginTop="40dp">
 
         <ImageView
             android:id="@+id/zoomInButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:src="@drawable/ic_zoom_in"
             android:layout_marginEnd="16dp"
-            android:padding="10dp"
+            android:padding="12dp"
             android:background="@drawable/circular_button"/>
 
         <ImageView
             android:id="@+id/checkButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:src="@drawable/ic_select"
             android:layout_marginEnd="16dp"
-            android:padding="10dp"
+            android:padding="12dp"
             android:background="@drawable/circular_button"/>
 
         <ImageView
             android:id="@+id/zoomOutButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:src="@drawable/ic_zoom_out"
-            android:padding="10dp"
+            android:padding="12dp"
             android:background="@drawable/circular_button"/>
 
     </LinearLayout>
@@ -106,7 +104,7 @@
         android:orientation="horizontal"
         android:gravity="center"
         android:paddingTop="16dp"
-        android:layout_marginTop="60dp">
+        android:layout_marginTop="40dp">
 
         <ImageView
             android:id="@+id/prevButton"
