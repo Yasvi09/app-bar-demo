@@ -4,7 +4,23 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@android:color/black">
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:indeterminateTint="@color/green_accent" />
 
+    <TextView
+        android:id="@+id/emptyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="No songs found"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        android:textSize="16sp" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"

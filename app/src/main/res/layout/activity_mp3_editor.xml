@@ -20,6 +20,7 @@
             android:contentDescription="Back" />
 
         <TextView
+            android:id="@+id/songTitleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Low Earth orbit"
@@ -37,6 +38,7 @@
         android:paddingVertical="8dp">
 
         <TextView
+            android:id="@+id/timeMarkers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0:10  0:10  0:10  0:10  0:10  0:10"
@@ -104,7 +106,7 @@
         android:orientation="horizontal"
         android:gravity="center"
         android:paddingTop="16dp"
-        android:layout_marginTop="100dp">
+        android:layout_marginTop="60dp">
 
         <ImageView
             android:id="@+id/prevButton"
@@ -126,5 +128,15 @@
             android:layout_height="40dp"
             android:src="@drawable/ic_next"/>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/cutTimeInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Selected: 00:00 - 00:00"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="20dp"
+        android:textSize="16sp"/>
 
 </LinearLayout>
