@@ -129,10 +129,8 @@ class MusicActivity : AppCompatActivity() {
             }
 
             bottomSheetView.post {
-                // Get all the diamond containers
                 val diamondContainers = findDiamondContainers(bottomSheetView)
 
-                // Apply theme to each diamond container
                 for (container in diamondContainers) {
                     themeManager.applyThemeToDiamondBorder(container)
                 }
@@ -165,19 +163,16 @@ class MusicActivity : AppCompatActivity() {
     private fun findDiamondContainers(rootView: View): List<View> {
         val result = mutableListOf<View>()
 
-        // If the root view is a ViewGroup, search through its children
         if (rootView is ViewGroup) {
-            // Look for FrameLayouts with rotation == 45 and background == diamond_border
+
             for (i in 0 until rootView.childCount) {
                 val child = rootView.getChildAt(i)
 
-                // Check if this is a diamond container
                 if (child is FrameLayout && child.rotation == 45f) {
-                    // This is likely a diamond container
+
                     result.add(child)
                 }
 
-                // Recursively search in child view groups
                 if (child is ViewGroup) {
                     result.addAll(findDiamondContainers(child))
                 }

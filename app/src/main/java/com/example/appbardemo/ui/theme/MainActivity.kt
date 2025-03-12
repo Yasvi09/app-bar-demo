@@ -115,7 +115,6 @@ class MainActivity : AppCompatActivity() {
             bottomSheetDialog.dismiss()
         }
 
-        // Add click listener for Theme button
         val themeButtonContainer = findButtonByText(bottomSheetView, "Theme")
         themeButtonContainer?.setOnClickListener {
             ColorPickerActivity.start(this)
