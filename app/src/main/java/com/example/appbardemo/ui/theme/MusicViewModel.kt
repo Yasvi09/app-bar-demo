@@ -139,7 +139,6 @@ class MusicViewModel : ViewModel() {
         }
     }
 
-
     fun addSongToPlaylist(playlistId: String, songId: String) {
         viewModelScope.launch {
             try {
@@ -340,7 +339,6 @@ class MusicViewModel : ViewModel() {
         }
     }
 
-    // Add this method to MusicViewModel
     fun getSongsByIds(songIds: List<String>, callback: (List<SongModel>) -> Unit) {
         viewModelScope.launch {
             try {
@@ -356,9 +354,7 @@ class MusicViewModel : ViewModel() {
         }
     }
 
-    /**
-     * Get a playlist by its ID (first from cache, then from Firebase if needed)
-     */
+
     fun getPlaylist(playlistId: String, callback: (PlaylistModel?) -> Unit) {
         viewModelScope.launch {
             try {

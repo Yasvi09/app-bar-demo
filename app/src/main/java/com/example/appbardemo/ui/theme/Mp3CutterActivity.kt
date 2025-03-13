@@ -27,25 +27,19 @@ class Mp3CutterActivity : AppCompatActivity() {
         progressBar = findViewById(R.id.progressBar)
         emptyText = findViewById(R.id.emptyText)
 
-        // Initialize view model
         viewModel = ViewModelProvider(this)[MusicViewModel::class.java]
 
-        // Setup back button
         findViewById<ImageView>(R.id.backButton).setOnClickListener {
             finish()
         }
 
-        // Setup recycler view
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = Mp3Adapter(this, emptyList())
 
-        // Show loading state
         progressBar.visibility = View.VISIBLE
 
-        // Load songs from the database
         viewModel.loadSongs()
 
-        // Observe songs data
         viewModel.songs.observe(this) { songs ->
             progressBar.visibility = View.GONE
 
@@ -59,7 +53,6 @@ class Mp3CutterActivity : AppCompatActivity() {
             }
         }
 
-        // Observe errors
         viewModel.error.observe(this) { errorMsg ->
             progressBar.visibility = View.GONE
             errorMsg?.let {

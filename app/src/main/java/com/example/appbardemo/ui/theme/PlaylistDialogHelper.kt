@@ -9,14 +9,9 @@ import android.widget.EditText
 import android.widget.Toast
 import com.example.appbardemo.R
 
-/**
- * Helper class for playlist-related dialogs
- */
+
 class PlaylistDialogHelper(private val context: Context) {
 
-    /**
-     * Shows a dialog to create a new playlist
-     */
     fun showCreatePlaylistDialog(
         viewModel: MusicViewModel,
         onSuccess: (() -> Unit)? = null
@@ -27,18 +22,15 @@ class PlaylistDialogHelper(private val context: Context) {
         val view = LayoutInflater.from(context).inflate(R.layout.dialog_create_playlist, null)
         dialog.setContentView(view)
 
-        // Set dialog width to match parent
         val layoutParams = dialog.window?.attributes
         layoutParams?.width = android.view.WindowManager.LayoutParams.MATCH_PARENT
         dialog.window?.attributes = layoutParams
 
-        // Find views
         val titleInput = view.findViewById<EditText>(R.id.playlistTitleInput)
         val descriptionInput = view.findViewById<EditText>(R.id.playlistDescriptionInput)
         val cancelButton = view.findViewById<Button>(R.id.cancelButton)
         val createButton = view.findViewById<Button>(R.id.createButton)
 
-        // Set up click listeners
         cancelButton.setOnClickListener {
             dialog.dismiss()
         }
@@ -65,9 +57,7 @@ class PlaylistDialogHelper(private val context: Context) {
         dialog.show()
     }
 
-    /**
-     * Shows a dialog to add a song to a playlist
-     */
+
     fun showAddToPlaylistDialog(
         viewModel: MusicViewModel,
         songId: String

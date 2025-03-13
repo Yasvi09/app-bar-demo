@@ -30,10 +30,8 @@ class MusicActivity : AppCompatActivity() {
         setContentView(R.layout.activity_music)
 
         try {
-            // Initialize ViewModel
             viewModel = ViewModelProvider(this)[MusicViewModel::class.java]
 
-            // Initialize views
             initializeViews()
 
             val pagerAdapter = MusicPagerAdapter(this, tabTitles.size)

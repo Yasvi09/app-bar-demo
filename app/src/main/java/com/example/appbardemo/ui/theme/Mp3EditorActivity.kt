@@ -56,7 +56,6 @@ class Mp3EditorActivity : AppCompatActivity() {
     private lateinit var animateWaveformRunnable: Runnable
     private var waveformAnimator: ValueAnimator? = null
 
-    // For tracking playback position in the waveform
     private var currentPlaybackPosition = 0
     private lateinit var gestureDetector: GestureDetectorCompat
 
@@ -64,7 +63,6 @@ class Mp3EditorActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mp3_editor)
 
-        // Initialize views
         waveformView = findViewById(R.id.waveformView)
         playButton = findViewById(R.id.playButton)
         backButton = findViewById(R.id.backButton)
@@ -72,7 +70,6 @@ class Mp3EditorActivity : AppCompatActivity() {
         timeMarkersTextView = findViewById(R.id.timeMarkers)
         cutTimeInfoTextView = findViewById(R.id.cutTimeInfo)
 
-        // Create and add our custom selection overlay
         selectionOverlayView = WaveformSelectionView(this)
         val waveformContainer = findViewById<FrameLayout>(R.id.waveformContainer)
         waveformContainer.addView(selectionOverlayView)
@@ -334,10 +331,9 @@ class Mp3EditorActivity : AppCompatActivity() {
     }
 
     private fun saveAudioCut() {
-        // In a real app, you would use a library like FFmpeg to cut the audio file
+
         Toast.makeText(this, "Saving cut audio from ${formatTime(startTime)} to ${formatTime(endTime)}", Toast.LENGTH_SHORT).show()
 
-        // Simulate processing time
         val progressDialog = ProgressDialog(this)
         progressDialog.setMessage("Processing audio...")
         progressDialog.setCancelable(false)
@@ -346,11 +342,9 @@ class Mp3EditorActivity : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
             progressDialog.dismiss()
 
-            // Show success message
             val fileName = "${songName}_cut.mp3"
             Toast.makeText(this, "Audio saved as $fileName", Toast.LENGTH_LONG).show()
 
-            // Return to previous screen
             finish()
         }, 2000)
     }
@@ -369,9 +363,7 @@ class Mp3EditorActivity : AppCompatActivity() {
         waveformAnimator?.cancel()
     }
 
-    /**
-     * Custom view for displaying the selection overlay on top of the waveform
-     */
+
     inner class WaveformSelectionView(context: Context) : View(context) {
         private val paint = Paint()
         private val selectionPaint = Paint()

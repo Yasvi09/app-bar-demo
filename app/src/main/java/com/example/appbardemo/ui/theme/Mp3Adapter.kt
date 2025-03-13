@@ -46,7 +46,7 @@ class Mp3Adapter(
         }
 
         holder.playIcon.setOnClickListener {
-            // Preview song (optional)
+
             val intent = Intent(context, PlaySongActivity::class.java).apply {
                 putExtra(PlaySongActivity.EXTRA_SONG_TITLE, song.name)
                 putExtra(PlaySongActivity.EXTRA_ARTIST_NAME, song.artist)

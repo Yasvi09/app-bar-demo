@@ -75,7 +75,6 @@ dependencies {
     implementation("androidx.media3:media3-exoplayer:1.2.0")
     implementation("com.google.firebase:firebase-firestore:25.1.2")
     implementation("com.google.firebase:firebase-storage:21.0.1")
-    
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
