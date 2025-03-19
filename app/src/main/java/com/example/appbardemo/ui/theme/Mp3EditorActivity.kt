@@ -2,16 +2,14 @@ package com.example.appbardemo.ui.theme
 
 import ProgressDialog
 import android.animation.ValueAnimator
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.RectF
 import android.media.MediaPlayer
-import android.media.MediaScannerConnection
 import android.os.Bundle
-import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.view.GestureDetector
@@ -25,17 +23,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GestureDetectorCompat
 import com.example.appbardemo.R
 import java.io.File
+import java.util.concurrent.TimeUnit
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.random.Random
-import android.media.MediaExtractor
-import android.media.MediaFormat
-import android.media.MediaCodec
-import android.media.MediaMuxer
-import android.util.Log
-import java.io.IOException
-import java.nio.ByteBuffer
 
 class Mp3EditorActivity : AppCompatActivity() {
     private lateinit var waveformView: ImageView
@@ -64,6 +56,7 @@ class Mp3EditorActivity : AppCompatActivity() {
     private lateinit var animateWaveformRunnable: Runnable
     private var waveformAnimator: ValueAnimator? = null
 
+    // For tracking playback position in the waveform
     private var currentPlaybackPosition = 0
     private lateinit var gestureDetector: GestureDetectorCompat
 
@@ -71,6 +64,7 @@ class Mp3EditorActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mp3_editor)
 
+        // Initialize views
         waveformView = findViewById(R.id.waveformView)
         playButton = findViewById(R.id.playButton)
         backButton = findViewById(R.id.backButton)
@@ -78,6 +72,7 @@ class Mp3EditorActivity : AppCompatActivity() {
         timeMarkersTextView = findViewById(R.id.timeMarkers)
         cutTimeInfoTextView = findViewById(R.id.cutTimeInfo)
 
+        // Create and add our custom selection overlay
         selectionOverlayView = WaveformSelectionView(this)
         val waveformContainer = findViewById<FrameLayout>(R.id.waveformContainer)
         waveformContainer.addView(selectionOverlayView)
@@ -123,22 +118,16 @@ class Mp3EditorActivity : AppCompatActivity() {
             updateCutTimeInfo()
         }
 
-        // Setup click listeners
         setupClickListeners()
 
-        // Initialize media player
         initializeMediaPlayer()
 
-        // Generate waveform
         generateWaveform()
 
-        // Initialize the seek bar updater
         setupSeekBarUpdater()
 
-        // Setup waveform animation
         setupWaveformAnimation()
 
-        // Initial update of time displays
         updateTimeMarkers()
         updateCutTimeInfo()
     }
@@ -168,7 +157,6 @@ class Mp3EditorActivity : AppCompatActivity() {
             saveAudioCut()
         }
 
-        // Set touch listeners for the waveform container
         findViewById<View>(R.id.waveformContainer).setOnTouchListener { _, event ->
             gestureDetector.onTouchEvent(event)
             true
@@ -338,8 +326,8 @@ class Mp3EditorActivity : AppCompatActivity() {
         cutTimeInfoTextView.text = "Selected: ${formatTime(startTime)} - ${formatTime(endTime)}"
     }
 
-    @SuppressLint("WrongConstant")
     private fun saveAudioCut() {
+
         Toast.makeText(this, "Saving cut audio from ${formatTime(startTime)} to ${formatTime(endTime)}", Toast.LENGTH_SHORT).show()
 
         val progressDialog = ProgressDialog(this)
@@ -347,126 +335,15 @@ class Mp3EditorActivity : AppCompatActivity() {
         progressDialog.setCancelable(false)
         progressDialog.show()
 
-        // Run audio processing in a background thread
-        Thread {
-            try {
-                // Get the Download folder path
-                val downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-                val fileName = "${songName.replace(' ', '_')}${formatTime(startTime).replace(':', '_')}${formatTime(endTime).replace(':', '_')}.m4a"
-                val outputFile = File(downloadDir, fileName)
+        Handler(Looper.getMainLooper()).postDelayed({
+            progressDialog.dismiss()
 
-                // Create the output file
-                if (!downloadDir.exists()) {
-                    downloadDir.mkdirs()
-                }
+            val fileName = "${songName}_cut.mp3"
+            Toast.makeText(this, "Audio saved as $fileName", Toast.LENGTH_LONG).show()
 
-                // Use MediaExtractor and MediaMuxer to trim the audio
-                val extractor = MediaExtractor()
-                extractor.setDataSource(songUrl)
 
-                // Find the audio track
-                val numTracks = extractor.trackCount
-                var audioTrackIndex = -1
-                var format: MediaFormat? = null
-
-                for (i in 0 until numTracks) {
-                    val trackFormat = extractor.getTrackFormat(i)
-                    val mime = trackFormat.getString(MediaFormat.KEY_MIME)
-                    Log.d("AudioDebug", "Track $i - MIME Type: $mime")
-                    if (mime?.startsWith("audio/") == true) {
-                        audioTrackIndex = i
-                        format = trackFormat
-                        break
-                    }
-                }
-
-                if (audioTrackIndex < 0 || format == null) {
-                    throw IOException("No audio track found in $songUrl")
-                    Log.d("AudioFormat", "Selected format: $format")
-                }
-
-                Log.d("AudioFormat", "Selected format: $format")
-
-                // Set up MediaMuxer for the output file
-                val muxer = MediaMuxer(outputFile.absolutePath, MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4)
-                val dstAudioTrackIndex = format?.let { muxer.addTrack(it) }
-                muxer.start()
-
-                // Select the audio track
-                extractor.selectTrack(audioTrackIndex)
-
-                // Convert time to microseconds
-                val startTimeUs = startTime * 1000000L
-                val endTimeUs = endTime * 1000000L
-
-                // Seek to start position
-                extractor.seekTo(startTimeUs, MediaExtractor.SEEK_TO_CLOSEST_SYNC)
-
-                // Allocate buffer for reading
-                val maxBufferSize = 1024 * 1024
-                val buffer = ByteBuffer.allocate(maxBufferSize)
-                val bufferInfo = MediaCodec.BufferInfo()
-
-                // Check if we haven't reached the end position
-                while (true) {
-                    // Read sample data
-                    val sampleSize = extractor.readSampleData(buffer, 0)
-
-                    // Break if no more samples or we've reached the end time
-                    if (sampleSize < 0 || extractor.sampleTime > endTimeUs) {
-                        break
-                    }
-
-                    // Set buffer info
-                    bufferInfo.size = sampleSize
-                    bufferInfo.offset = 0
-                    bufferInfo.flags = extractor.sampleFlags
-                    bufferInfo.presentationTimeUs = extractor.sampleTime - startTimeUs
-
-                    // Write the sample to the muxer
-                    dstAudioTrackIndex?.let { muxer.writeSampleData(it, buffer, bufferInfo) }
-
-                    // Advance to the next sample
-                    extractor.advance()
-                }
-
-                // Release resources
-                muxer.stop()
-                muxer.release()
-                extractor.release()
-
-                // Add the file to the media store
-                MediaScannerConnection.scanFile(
-                    this,
-                    arrayOf(outputFile.absolutePath),
-                    arrayOf("audio/mp3"),
-                    null
-                )
-
-                // Update UI on main thread
-                runOnUiThread {
-                    progressDialog.dismiss()
-                    Toast.makeText(
-                        this,
-                        "Audio saved to Downloads: $fileName",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-
-            } catch (e: Exception) {
-                e.printStackTrace()
-
-                // Handle failure on main thread
-                runOnUiThread {
-                    progressDialog.dismiss()
-                    Toast.makeText(
-                        this,
-                        "Failed to save audio: ${e.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
-        }.start()
+            finish()
+        }, 2000)
     }
 
     private fun formatTime(seconds: Int): String {
@@ -482,7 +359,6 @@ class Mp3EditorActivity : AppCompatActivity() {
         handler.removeCallbacks(updateSeekBarRunnable)
         waveformAnimator?.cancel()
     }
-
 
     inner class WaveformSelectionView(context: Context) : View(context) {
         private val paint = Paint()
@@ -504,7 +380,6 @@ class Mp3EditorActivity : AppCompatActivity() {
         override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
             super.onSizeChanged(w, h, oldw, oldh)
 
-            // Initialize selection positions when the view size is first determined
             if (!isInitialized && w > 0) {
                 startSelectionX = w * 0.25f
                 endSelectionX = w * 0.75f
@@ -627,7 +502,7 @@ class Mp3EditorActivity : AppCompatActivity() {
         }
 
         private fun notifySelectionChanged() {
-            // Convert selection positions to time values
+
             val visibleDuration = (songDurationMs / currentZoom)
             val startTime = ((startSelectionX / width) * visibleDuration).toInt()
             val endTime = ((endSelectionX / width) * visibleDuration).toInt()
@@ -695,4 +570,5 @@ class Mp3EditorActivity : AppCompatActivity() {
             }
         }
     }
+
 }

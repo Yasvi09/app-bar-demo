@@ -40,7 +40,6 @@ class MusicTabFragment : Fragment() {
             tabType = it.getString(ARG_TAB_TYPE)
         }
 
-        // Try to get the shared ViewModel
         try {
             activity?.let {
                 viewModel = ViewModelProvider(it)[MusicViewModel::class.java]
